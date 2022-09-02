@@ -1,6 +1,7 @@
 import 'package:ditonton/domain/entities/genre.dart';
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class TvseriesDetail extends Equatable {
   TvseriesDetail({
     required this.backdropPath,
@@ -17,18 +18,18 @@ class TvseriesDetail extends Equatable {
     required this.voteCount,
   });
 
-  final String backdropPath;
-  final List<Genre> genres;
-  final int id;
-  final int numberOfEpisodes;
-  final int numberOfSeasons;
-  final String originalName;
-  final String overview;
-  final double popularity;
-  final String posterPath;
-  final String status;
-  final double voteAverage;
-  final int voteCount;
+  String? backdropPath;
+  List<Genre>? genres;
+  int? id;
+  int? numberOfEpisodes;
+  int? numberOfSeasons;
+  String? originalName;
+  String? overview;
+  double? popularity;
+  String? posterPath;
+  String? status;
+  double? voteAverage;
+  int? voteCount;
 
   @override
   List<Object?> get props => [
