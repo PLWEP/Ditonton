@@ -190,6 +190,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.1"
+<<<<<<< HEAD
   data_connection_checker:
     dependency: "direct main"
     description:
@@ -199,6 +200,8 @@ packages:
       url: "https://github.com/chornthorn/data_connection_checker.git"
     source: git
     version: "0.3.4"
+=======
+>>>>>>> main
   equatable:
     dependency: "direct main"
     description:
@@ -425,7 +428,11 @@ packages:
       name: path_provider_android
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.0.17"
+=======
+    version: "2.0.18"
+>>>>>>> main
   path_provider_ios:
     dependency: transitive
     description:
