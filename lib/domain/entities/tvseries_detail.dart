@@ -19,17 +19,17 @@ class TvseriesDetail extends Equatable {
   });
 
   String? backdropPath;
-  List<Genre>? genres;
-  int? id;
-  int? numberOfEpisodes;
-  int? numberOfSeasons;
-  String? originalName;
-  String? overview;
-  double? popularity;
-  String? posterPath;
-  String? status;
-  double? voteAverage;
-  int? voteCount;
+  List<Genre> genres;
+  int id;
+  int numberOfEpisodes;
+  int numberOfSeasons;
+  String originalName;
+  String overview;
+  double popularity;
+  String posterPath;
+  String status;
+  double voteAverage;
+  int voteCount;
 
   @override
   List<Object?> get props => [
