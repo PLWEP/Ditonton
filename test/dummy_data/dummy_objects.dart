@@ -1,4 +1,5 @@
 import 'package:ditonton/data/models/movie/movie_table.dart';
+import 'package:ditonton/data/models/tvseries/tvseries_table.dart';
 import 'package:ditonton/domain/entities/genre.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/movie_detail.dart';
@@ -117,4 +118,49 @@ final testTvseriesDetail = TvseriesDetail(
   status: "Ended",
   voteAverage: 8.3,
   voteCount: 11504,
+);
+
+final testWatchlistTvseries = Tvseries.watchlist(
+  id: 1,
+  name: 'name',
+  posterPath: 'posterPath',
+  overview: 'overview',
+);
+
+final testTvseriesTable = TvseriesTable(
+  id: 1,
+  name: 'name',
+  posterPath: 'posterPath',
+  overview: 'overview',
+);
+
+final testTvseriesMap = {
+  'id': 1,
+  'overview': 'overview',
+  'posterPath': 'posterPath',
+  'originalName': 'name',
+};
+
+final testTvseriesCache = TvseriesTable(
+  id: 1399,
+  overview:
+      "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+  posterPath: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg",
+  name: 'Game Of Thrones',
+);
+
+final testTvseriesCacheMap = {
+  "id": 1399,
+  "overview":
+      "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+  "posterPath": "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg",
+  "originalName": 'Game Of Thrones',
+};
+
+final testTvseriesFromCache = Tvseries.watchlist(
+  id: 1399,
+  overview:
+      "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+  posterPath: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg",
+  name: 'Game Of Thrones',
 );

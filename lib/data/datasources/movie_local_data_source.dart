@@ -19,7 +19,7 @@ class MovieLocalDataSourceImpl implements MovieLocalDataSource {
   @override
   Future<String> insertWatchlist(MovieTable movie) async {
     try {
-      await databaseHelper.insertWatchlist(movie);
+      await databaseHelper.insertMovieWatchlist(movie);
       return 'Added to Watchlist';
     } catch (e) {
       throw DatabaseException(e.toString());
@@ -29,7 +29,7 @@ class MovieLocalDataSourceImpl implements MovieLocalDataSource {
   @override
   Future<String> removeWatchlist(MovieTable movie) async {
     try {
-      await databaseHelper.removeWatchlist(movie);
+      await databaseHelper.removeMovieWatchlist(movie);
       return 'Removed from Watchlist';
     } catch (e) {
       throw DatabaseException(e.toString());
@@ -48,19 +48,19 @@ class MovieLocalDataSourceImpl implements MovieLocalDataSource {
 
   @override
   Future<List<MovieTable>> getWatchlistMovies() async {
-    final result = await databaseHelper.getWatchlistMovies();
+    final result = await databaseHelper.getWatchlist();
     return result.map((data) => MovieTable.fromMap(data)).toList();
   }
 
   @override
   Future<void> cacheNowPlayingMovies(List<MovieTable> movies) async {
     await databaseHelper.clearCache('now playing');
-    await databaseHelper.insertCacheTransaction(movies, 'now playing');
+    await databaseHelper.insertMovieCacheTransaction(movies, 'now playing');
   }
 
   @override
   Future<List<MovieTable>> getCachedNowPlayingMovies() async {
-    final result = await databaseHelper.getCacheMovies('now playing');
+    final result = await databaseHelper.getCache('now playing');
     if (result.length > 0) {
       return result.map((data) => MovieTable.fromMap(data)).toList();
     } else {
