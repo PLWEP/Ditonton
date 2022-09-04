@@ -7,13 +7,13 @@ import 'package:flutter/cupertino.dart';
 
 class TvseriesListNotifier extends ChangeNotifier {
   var _nowPlayingTvseries = <Tvseries>[];
-  List<Tvseries> get nowPlayingMovies => _nowPlayingTvseries;
+  List<Tvseries> get nowPlayingTvseries => _nowPlayingTvseries;
 
   RequestState _nowPlayingState = RequestState.Empty;
   RequestState get nowPlayingState => _nowPlayingState;
 
   var _popularTvseries = <Tvseries>[];
-  List<Tvseries> get popularMovies => _popularTvseries;
+  List<Tvseries> get popularTvseries => _popularTvseries;
 
   RequestState _popularTvseriesState = RequestState.Empty;
   RequestState get popularTvseriesState => _popularTvseriesState;
