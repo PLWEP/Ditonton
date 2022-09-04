@@ -5,41 +5,41 @@ import 'package:equatable/equatable.dart';
 
 class TvseriesTable extends Equatable {
   final int id;
-  final String? name;
+  final String? title;
   final String? posterPath;
   final String? overview;
 
   TvseriesTable({
     required this.id,
-    required this.name,
+    required this.title,
     required this.posterPath,
     required this.overview,
   });
 
   factory TvseriesTable.fromEntity(TvseriesDetail tvseries) => TvseriesTable(
         id: tvseries.id,
-        name: tvseries.originalName,
+        title: tvseries.title,
         posterPath: tvseries.posterPath,
         overview: tvseries.overview,
       );
 
   factory TvseriesTable.fromMap(Map<String, dynamic> map) => TvseriesTable(
         id: map['id'],
-        name: map['originalName'],
+        title: map['title'],
         posterPath: map['posterPath'],
         overview: map['overview'],
       );
 
   factory TvseriesTable.fromDTO(TvseriesModel tvseries) => TvseriesTable(
         id: tvseries.id,
-        name: tvseries.originalName,
+        title: tvseries.title,
         posterPath: tvseries.posterPath,
         overview: tvseries.overview,
       );
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'name': name,
+        'title': title,
         'posterPath': posterPath,
         'overview': overview,
       };
@@ -48,9 +48,9 @@ class TvseriesTable extends Equatable {
         id: id,
         overview: overview,
         posterPath: posterPath,
-        name: name,
+        title: title,
       );
 
   @override
-  List<Object?> get props => [id, name, posterPath, overview];
+  List<Object?> get props => [id, title, posterPath, overview];
 }

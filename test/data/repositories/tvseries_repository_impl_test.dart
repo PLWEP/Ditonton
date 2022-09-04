@@ -46,7 +46,7 @@ void main() {
     originalLanguage: "en",
     voteCount: 133,
     name: "Pretty Little Liars",
-    originalName: "Pretty Little Liars",
+    title: "Pretty Little Liars",
   );
 
   final tTvseries = Tvseries(
@@ -63,7 +63,7 @@ void main() {
     originalLanguage: "en",
     voteCount: 133,
     name: "Pretty Little Liars",
-    originalName: "Pretty Little Liars",
+    title: "Pretty Little Liars",
   );
 
   final tTvseriesModelList = <TvseriesModel>[tTvseriesModel];
@@ -247,7 +247,7 @@ void main() {
       id: 1399,
       numberOfEpisodes: 73,
       numberOfSeasons: 8,
-      originalName: "Game of Thrones",
+      title: "Game of Thrones",
       overview:
           "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
       popularity: 369.594,

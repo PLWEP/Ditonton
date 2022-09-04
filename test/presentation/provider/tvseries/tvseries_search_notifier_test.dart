@@ -3,7 +3,6 @@ import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tvseries.dart';
 import 'package:ditonton/domain/usecases/tvseries/search_tvseries.dart';
-import 'package:ditonton/presentation/provider/movie/movie_search_notifier.dart';
 import 'package:ditonton/presentation/provider/tvseries/tvseries_search_notifier.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -40,7 +39,7 @@ void main() {
     originalLanguage: "en",
     voteCount: 133,
     name: "Pretty Little Liars",
-    originalName: "Pretty Little Liars",
+    title: "Pretty Little Liars",
   );
   final tTvseriesList = <Tvseries>[tTvseriesModel];
   final tQuery = 'spiderman';

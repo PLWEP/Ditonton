@@ -19,7 +19,7 @@ class TvseriesDetailResponse extends Equatable {
     required this.numberOfSeasons,
     required this.originCountry,
     required this.originalLanguage,
-    required this.originalName,
+    required this.title,
     required this.overview,
     required this.popularity,
     required this.posterPath,
@@ -45,7 +45,7 @@ class TvseriesDetailResponse extends Equatable {
   final int numberOfSeasons;
   final List<String> originCountry;
   final String originalLanguage;
-  final String originalName;
+  final String title;
   final String overview;
   final double popularity;
   final String posterPath;
@@ -73,7 +73,7 @@ class TvseriesDetailResponse extends Equatable {
         numberOfSeasons: json["number_of_seasons"],
         originCountry: List<String>.from(json["origin_country"].map((x) => x)),
         originalLanguage: json["original_language"],
-        originalName: json["original_name"],
+        title: json["original_name"],
         overview: json["overview"],
         popularity: json["popularity"].toDouble(),
         posterPath: json["poster_path"],
@@ -100,7 +100,7 @@ class TvseriesDetailResponse extends Equatable {
         "number_of_seasons": numberOfSeasons,
         "origin_country": List<dynamic>.from(originCountry.map((x) => x)),
         "original_language": originalLanguage,
-        "original_name": originalName,
+        "original_name": title,
         "overview": overview,
         "popularity": popularity,
         "poster_path": posterPath,
@@ -118,7 +118,7 @@ class TvseriesDetailResponse extends Equatable {
       id: this.id,
       numberOfEpisodes: this.numberOfEpisodes,
       numberOfSeasons: this.numberOfSeasons,
-      originalName: this.originalName,
+      title: this.title,
       overview: this.overview,
       popularity: this.popularity,
       posterPath: this.posterPath,
@@ -145,7 +145,7 @@ class TvseriesDetailResponse extends Equatable {
         numberOfSeasons,
         originCountry,
         originalLanguage,
-        originalName,
+        title,
         overview,
         popularity,
         posterPath,

@@ -111,7 +111,7 @@ class DatabaseHelper {
     final db = await database;
     return await db!.delete(
       _tblWatchlist,
-      where: 'id = ?, type = "movie" ',
+      where: 'id = ? and type = "movie" ',
       whereArgs: [movie.id],
     );
   }
@@ -128,7 +128,7 @@ class DatabaseHelper {
     final db = await database;
     return await db!.delete(
       _tblWatchlist,
-      where: 'id = ?, type = "tvseries"',
+      where: 'id = ? and type = "tvseries"',
       whereArgs: [tvseries.id],
     );
   }
@@ -137,7 +137,7 @@ class DatabaseHelper {
     final db = await database;
     final results = await db!.query(
       _tblWatchlist,
-      where: 'id = ?, type = "movie"',
+      where: 'id = ? and type = "movie"',
       whereArgs: [id],
     );
 
@@ -172,7 +172,7 @@ class DatabaseHelper {
     final db = await database;
     final results = await db!.query(
       _tblWatchlist,
-      where: 'id = ?, type = "tvseries"',
+      where: 'id = ? and type = "tvseries"',
       whereArgs: [id],
     );
 

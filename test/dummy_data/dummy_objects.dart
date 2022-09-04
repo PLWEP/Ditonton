@@ -99,7 +99,7 @@ final testTvseries = Tvseries(
   originalLanguage: "en",
   voteCount: 133,
   name: "Pretty Little Liars",
-  originalName: "Pretty Little Liars",
+  title: "Pretty Little Liars",
 );
 
 final testTvseriesList = [testTvseries];
@@ -110,7 +110,7 @@ final testTvseriesDetail = TvseriesDetail(
   id: 1399,
   numberOfEpisodes: 73,
   numberOfSeasons: 8,
-  originalName: "Game of Thrones",
+  title: "Game of Thrones",
   overview:
       "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
   popularity: 369.594,
@@ -122,14 +122,14 @@ final testTvseriesDetail = TvseriesDetail(
 
 final testWatchlistTvseries = Tvseries.watchlist(
   id: 1,
-  name: 'name',
+  title: 'title',
   posterPath: 'posterPath',
   overview: 'overview',
 );
 
 final testTvseriesTable = TvseriesTable(
   id: 1,
-  name: 'name',
+  title: 'title',
   posterPath: 'posterPath',
   overview: 'overview',
 );
@@ -138,7 +138,7 @@ final testTvseriesMap = {
   'id': 1,
   'overview': 'overview',
   'posterPath': 'posterPath',
-  'originalName': 'name',
+  'title': 'name',
 };
 
 final testTvseriesCache = TvseriesTable(
@@ -146,7 +146,7 @@ final testTvseriesCache = TvseriesTable(
   overview:
       "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
   posterPath: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg",
-  name: 'Game Of Thrones',
+  title: 'Game Of Thrones',
 );
 
 final testTvseriesCacheMap = {
@@ -154,7 +154,7 @@ final testTvseriesCacheMap = {
   "overview":
       "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
   "posterPath": "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg",
-  "originalName": 'Game Of Thrones',
+  "title": 'Game Of Thrones',
 };
 
 final testTvseriesFromCache = Tvseries.watchlist(
@@ -162,5 +162,5 @@ final testTvseriesFromCache = Tvseries.watchlist(
   overview:
       "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
   posterPath: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg",
-  name: 'Game Of Thrones',
+  title: 'Game Of Thrones',
 );

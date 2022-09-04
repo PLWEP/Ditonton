@@ -9,7 +9,7 @@ class TvseriesDetail extends Equatable {
     required this.id,
     required this.numberOfEpisodes,
     required this.numberOfSeasons,
-    required this.originalName,
+    required this.title,
     required this.overview,
     required this.popularity,
     required this.posterPath,
@@ -23,7 +23,7 @@ class TvseriesDetail extends Equatable {
   int id;
   int numberOfEpisodes;
   int numberOfSeasons;
-  String originalName;
+  String title;
   String overview;
   double popularity;
   String posterPath;
@@ -38,7 +38,7 @@ class TvseriesDetail extends Equatable {
         id,
         numberOfEpisodes,
         numberOfSeasons,
-        originalName,
+        title,
         overview,
         popularity,
         posterPath,

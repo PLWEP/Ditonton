@@ -39,7 +39,7 @@ void main() {
     originalLanguage: "en",
     voteCount: 133,
     name: "Pretty Little Liars",
-    originalName: "Pretty Little Liars",
+    title: "Pretty Little Liars",
   );
 
   final tTvseriesList = <Tvseries>[tTvseries];

@@ -15,7 +15,7 @@ class Tvseries extends Equatable {
     required this.originalLanguage,
     required this.voteCount,
     required this.name,
-    required this.originalName,
+    required this.title,
   });
 
   String? posterPath;
@@ -30,13 +30,13 @@ class Tvseries extends Equatable {
   String? originalLanguage;
   int? voteCount;
   String? name;
-  String? originalName;
+  String? title;
 
   Tvseries.watchlist({
     required this.id,
     required this.overview,
     required this.posterPath,
-    required this.name,
+    required this.title,
   });
 
   @override
@@ -53,6 +53,6 @@ class Tvseries extends Equatable {
         originalLanguage,
         voteCount,
         name,
-        originalName
+        title
       ];
 }

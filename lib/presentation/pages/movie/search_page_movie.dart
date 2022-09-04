@@ -5,8 +5,8 @@ import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SearchPage extends StatelessWidget {
-  static const ROUTE_NAME = '/search';
+class SearchPageMovie extends StatelessWidget {
+  static const ROUTE_NAME = '/search_movie';
 
   @override
   Widget build(BuildContext context) {

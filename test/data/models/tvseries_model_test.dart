@@ -17,7 +17,7 @@ void main() {
     originalLanguage: "en",
     voteCount: 133,
     name: "Pretty Little Liars",
-    originalName: "Pretty Little Liars",
+    title: "Pretty Little Liars",
   );
 
   final tTvseries = Tvseries(
@@ -34,7 +34,7 @@ void main() {
     originalLanguage: "en",
     voteCount: 133,
     name: "Pretty Little Liars",
-    originalName: "Pretty Little Liars",
+    title: "Pretty Little Liars",
   );
   test('should be a subclass of Tvseries entity', () async {
     final result = tTvseriesModel.toEntity();
