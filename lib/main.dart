@@ -13,6 +13,12 @@ import 'package:ditonton/presentation/provider/movie/movie_search_notifier.dart'
 import 'package:ditonton/presentation/provider/movie/popular_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/top_rated_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/watchlist_movie_notifier.dart';
+import 'package:ditonton/presentation/provider/tvseries/popular_tvseries_notifier.dart';
+import 'package:ditonton/presentation/provider/tvseries/top_rated_tvseries_notifier.dart';
+import 'package:ditonton/presentation/provider/tvseries/tvseries_detail_notifier.dart';
+import 'package:ditonton/presentation/provider/tvseries/tvseries_list_notifier.dart';
+import 'package:ditonton/presentation/provider/tvseries/tvseries_search_notifier.dart';
+import 'package:ditonton/presentation/provider/tvseries/watchlist_tvseries_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +51,24 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<WatchlistMovieNotifier>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<TvseriesListNotifier>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<TvseriesDetailNotifier>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<TvseriesSearchNotifier>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<TopRatedTvseriesNotifier>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<PopularTvseriesNotifier>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<WatchlistTvseriesNotifier>(),
         ),
       ],
       child: MaterialApp(
