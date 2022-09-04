@@ -18,7 +18,7 @@ import 'package:ditonton/domain/usecases/movie/remove_watchlist_movie.dart'
     as _i6;
 import 'package:ditonton/domain/usecases/movie/save_watchlist_movie.dart'
     as _i5;
-import 'package:ditonton/presentation/provider/movie_detail_notifier.dart'
+import 'package:ditonton/presentation/provider/movie/movie_detail_notifier.dart'
     as _i8;
 import 'package:mockito/mockito.dart' as _i1;
 
