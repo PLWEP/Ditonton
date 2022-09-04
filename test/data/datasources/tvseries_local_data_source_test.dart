@@ -91,7 +91,7 @@ void main() {
   group('get watchlist Tvseries', () {
     test('should return list of TvseriesTable from database', () async {
       // arrange
-      when(mockDatabaseHelper.getWatchlist())
+      when(mockDatabaseHelper.getWatchlistTvseries())
           .thenAnswer((_) async => [testTvseriesMap]);
       // act
       final result = await dataSource.getWatchlistTvseries();

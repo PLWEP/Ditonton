@@ -89,7 +89,7 @@ void main() {
   group('get watchlist movies', () {
     test('should return list of MovieTable from database', () async {
       // arrange
-      when(mockDatabaseHelper.getWatchlist())
+      when(mockDatabaseHelper.getWatchlistMovie())
           .thenAnswer((_) async => [testMovieMap]);
       // act
       final result = await dataSource.getWatchlistMovies();

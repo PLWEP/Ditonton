@@ -45,7 +45,7 @@ class TvseriesLocalDataSourceImpl implements TvseriesLocalDataSource {
 
   @override
   Future<List<TvseriesTable>> getWatchlistTvseries() async {
-    final result = await databaseHelper.getWatchlist();
+    final result = await databaseHelper.getWatchlistTvseries();
     return result.map((data) => TvseriesTable.fromMap(data)).toList();
   }
 
