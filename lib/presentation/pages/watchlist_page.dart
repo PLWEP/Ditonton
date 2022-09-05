@@ -97,13 +97,13 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
               child:
                   Consumer2<WatchlistMovieNotifier, WatchlistTvseriesNotifier>(
                 builder: (context, movieData, tvseriesData, child) {
-                  if (movieData.watchlistState == RequestState.Loading ||
-                      tvseriesData.watchlistState == RequestState.Loading) {
+                  if (movieData.watchlistState == RequestState.loading ||
+                      tvseriesData.watchlistState == RequestState.loading) {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (movieData.watchlistState == RequestState.Loaded &&
-                      tvseriesData.watchlistState == RequestState.Loaded) {
+                  } else if (movieData.watchlistState == RequestState.loaded &&
+                      tvseriesData.watchlistState == RequestState.loaded) {
                     var counterIndex = 0;
                     return ListView.builder(
                       itemBuilder: (context, index) {
@@ -119,6 +119,11 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
                       },
                       itemCount: movieData.watchlistMovies.length +
                           tvseriesData.watchlistTvseries.length,
+                    );
+                  } else if (movieData.watchlistState == RequestState.empty &&
+                      tvseriesData.watchlistState == RequestState.empty) {
+                    return Center(
+                      child: Text("Watchlist masih kosong :("),
                     );
                   } else {
                     return Center(
