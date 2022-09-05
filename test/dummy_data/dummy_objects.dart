@@ -138,7 +138,7 @@ final testTvseriesMap = {
   'id': 1,
   'overview': 'overview',
   'posterPath': 'posterPath',
-  'title': 'name',
+  'title': 'title',
 };
 
 final testTvseriesCache = TvseriesTable(

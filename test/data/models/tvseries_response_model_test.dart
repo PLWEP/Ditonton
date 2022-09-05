@@ -60,7 +60,7 @@ void main() {
             "original_language": "en",
             "vote_count": 133,
             "name": "Pretty Little Liars",
-            "original_name": "Pretty Little Liars"
+            "title": "Pretty Little Liars"
           }
         ]
       };
