@@ -104,28 +104,21 @@ class _WatchlistState extends State<Watchlist> with RouteAware {
                     );
                   } else if (movieData.watchlistState == RequestState.Loaded &&
                       tvseriesData.watchlistState == RequestState.Loaded) {
-                    return Column(
-                      children: [
-                        Flexible(
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              final movie = movieData.watchlistMovies[index];
-                              return MovieCard(movie);
-                            },
-                            itemCount: movieData.watchlistMovies.length,
-                          ),
-                        ),
-                        Flexible(
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              final tvseries =
-                                  tvseriesData.watchlistTvseries[index];
-                              return TvseriesCard(tvseries);
-                            },
-                            itemCount: tvseriesData.watchlistTvseries.length,
-                          ),
-                        ),
-                      ],
+                    var counterIndex = 0;
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        if (index < movieData.watchlistMovies.length) {
+                          final movie = movieData.watchlistMovies[index];
+                          return MovieCard(movie);
+                        } else {
+                          final tvseries =
+                              tvseriesData.watchlistTvseries[counterIndex];
+                          counterIndex++;
+                          return TvseriesCard(tvseries);
+                        }
+                      },
+                      itemCount: movieData.watchlistMovies.length +
+                          tvseriesData.watchlistTvseries.length,
                     );
                   } else {
                     return Center(
