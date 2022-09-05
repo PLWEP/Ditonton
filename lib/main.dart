@@ -6,17 +6,14 @@ import 'package:core/utils/routes.dart';
 import 'package:core/presentation/pages/movie/movie_detail_page.dart';
 import 'package:core/presentation/pages/movie/home_movie_page.dart';
 import 'package:core/presentation/pages/movie/popular_movies_page.dart';
-import 'package:core/presentation/pages/movie/search_page_movie.dart';
 import 'package:core/presentation/pages/movie/top_rated_movies_page.dart';
 import 'package:core/presentation/pages/tvseries/home_tvseries_page.dart';
 import 'package:core/presentation/pages/tvseries/popular_tvseries_page.dart';
-import 'package:core/presentation/pages/tvseries/search_page_tvseries.dart';
 import 'package:core/presentation/pages/tvseries/top_rated_tvseries_page.dart';
 import 'package:core/presentation/pages/tvseries/tvseries_detail_page.dart';
 import 'package:core/presentation/pages/watchlist_page.dart';
 import 'package:core/presentation/provider/movie/movie_detail_notifier.dart';
 import 'package:core/presentation/provider/movie/movie_list_notifier.dart';
-import 'package:core/presentation/provider/movie/movie_search_notifier.dart';
 import 'package:core/presentation/provider/movie/popular_movies_notifier.dart';
 import 'package:core/presentation/provider/movie/top_rated_movies_notifier.dart';
 import 'package:core/presentation/provider/movie/watchlist_movie_notifier.dart';
@@ -24,12 +21,15 @@ import 'package:core/presentation/provider/tvseries/popular_tvseries_notifier.da
 import 'package:core/presentation/provider/tvseries/top_rated_tvseries_notifier.dart';
 import 'package:core/presentation/provider/tvseries/tvseries_detail_notifier.dart';
 import 'package:core/presentation/provider/tvseries/tvseries_list_notifier.dart';
-import 'package:core/presentation/provider/tvseries/tvseries_search_notifier.dart';
 import 'package:core/presentation/provider/tvseries/watchlist_tvseries_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ditonton/injection.dart' as di;
+import 'package:search/presentation/pages/search_page_movie.dart';
+import 'package:search/presentation/pages/search_page_tvseries.dart';
+import 'package:search/presentation/provider/movie_search_notifier.dart';
+import 'package:search/presentation/provider/tvseries_search_notifier.dart';
 
 void main() {
   di.init();

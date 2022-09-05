@@ -18,7 +18,6 @@ import 'package:core/domain/usecases/movie/get_watchlist_movies.dart';
 import 'package:core/domain/usecases/movie/get_watchlist_status_movie.dart';
 import 'package:core/domain/usecases/movie/remove_watchlist_movie.dart';
 import 'package:core/domain/usecases/movie/save_watchlist_movie.dart';
-import 'package:core/domain/usecases/movie/search_movies.dart';
 import 'package:core/domain/usecases/tvseries/get_now_playing_tvseries.dart';
 import 'package:core/domain/usecases/tvseries/get_popular_tvseries.dart';
 import 'package:core/domain/usecases/tvseries/get_top_rated_tvseries.dart';
@@ -28,10 +27,8 @@ import 'package:core/domain/usecases/tvseries/get_watchlist_status_tvseries.dart
 import 'package:core/domain/usecases/tvseries/get_watchlist_tvseries.dart';
 import 'package:core/domain/usecases/tvseries/remove_watchlist_tvseries.dart';
 import 'package:core/domain/usecases/tvseries/save_watchlist_tvseries.dart';
-import 'package:core/domain/usecases/tvseries/search_tvseries.dart';
 import 'package:core/presentation/provider/movie/movie_detail_notifier.dart';
 import 'package:core/presentation/provider/movie/movie_list_notifier.dart';
-import 'package:core/presentation/provider/movie/movie_search_notifier.dart';
 import 'package:core/presentation/provider/movie/popular_movies_notifier.dart';
 import 'package:core/presentation/provider/movie/top_rated_movies_notifier.dart';
 import 'package:core/presentation/provider/movie/watchlist_movie_notifier.dart';
@@ -39,10 +36,13 @@ import 'package:core/presentation/provider/tvseries/popular_tvseries_notifier.da
 import 'package:core/presentation/provider/tvseries/top_rated_tvseries_notifier.dart';
 import 'package:core/presentation/provider/tvseries/tvseries_detail_notifier.dart';
 import 'package:core/presentation/provider/tvseries/tvseries_list_notifier.dart';
-import 'package:core/presentation/provider/tvseries/tvseries_search_notifier.dart';
 import 'package:core/presentation/provider/tvseries/watchlist_tvseries_notifier.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
+import 'package:search/domain/usecases/search_movies.dart';
+import 'package:search/domain/usecases/search_tvseries.dart';
+import 'package:search/presentation/provider/movie_search_notifier.dart';
+import 'package:search/presentation/provider/tvseries_search_notifier.dart';
 
 final locator = GetIt.instance;
 

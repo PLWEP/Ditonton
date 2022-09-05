@@ -2,11 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:core/utils/failure.dart';
 import 'package:core/utils/state_enum.dart';
 import 'package:core/domain/entities/tvseries.dart';
-import 'package:core/domain/usecases/tvseries/search_tvseries.dart';
-import 'package:core/presentation/provider/tvseries/tvseries_search_notifier.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:search/domain/usecases/search_tvseries.dart';
+import 'package:search/presentation/provider/tvseries_search_notifier.dart';
 
 import 'tvseries_search_notifier_test.mocks.dart';
 

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/styles/colors.dart';
 import 'package:core/styles/text_style.dart';

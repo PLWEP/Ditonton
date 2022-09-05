@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/styles/text_style.dart';
 import 'package:core/utils/constants.dart';
+import 'package:core/utils/routes.dart';
 import 'package:core/utils/state_enum.dart';
 import 'package:core/domain/entities/tvseries.dart';
 import 'package:about/about.dart';
 import 'package:core/presentation/pages/movie/home_movie_page.dart';
 import 'package:core/presentation/pages/tvseries/popular_tvseries_page.dart';
-import 'package:core/presentation/pages/tvseries/search_page_tvseries.dart';
 import 'package:core/presentation/pages/tvseries/top_rated_tvseries_page.dart';
 import 'package:core/presentation/pages/tvseries/tvseries_detail_page.dart';
 import 'package:core/presentation/pages/watchlist_page.dart';
@@ -82,7 +82,7 @@ class HomeTvseriesPageState extends State<HomeTvseriesPage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, SearchPageTvseries.routeName);
+              Navigator.pushNamed(context, searchTvseriesRoute);
             },
             icon: const Icon(Icons.search),
           )

@@ -1,4 +1,4 @@
-name: core
+name: search
 description: A new Flutter package project.
 version: 0.0.1
 homepage:
@@ -8,20 +8,10 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  cached_network_image: ^3.0.0
-  flutter_rating_bar: ^4.0.0
-  about:
-    path: ../about
   provider: ^6.0.3
   dartz: ^0.10.1
-  sqflite: ^2.0.0+3
-  data_connection_checker:
-    git:
-      url: https://github.com/chornthorn/data_connection_checker.git
-      ref: master
-  equatable: ^2.0.3
-  google_fonts: ^3.0.1
-  http: ^0.13.5
+  core:
+    path: ../core
   flutter:
     sdk: flutter
 
