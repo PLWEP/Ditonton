@@ -39,9 +39,9 @@ import 'package:core/presentation/provider/tvseries/tvseries_list_notifier.dart'
 import 'package:core/presentation/provider/tvseries/watchlist_tvseries_notifier.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
+import 'package:search/bloc/search_bloc.dart';
 import 'package:search/domain/usecases/search_movies.dart';
 import 'package:search/domain/usecases/search_tvseries.dart';
-import 'package:search/presentation/provider/movie_search_notifier.dart';
 import 'package:search/presentation/provider/tvseries_search_notifier.dart';
 
 final locator = GetIt.instance;
@@ -62,11 +62,6 @@ void init() {
       getWatchListStatus: locator(),
       saveWatchlist: locator(),
       removeWatchlist: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => MovieSearchNotifier(
-      searchMovies: locator(),
     ),
   );
   locator.registerFactory(
@@ -119,6 +114,11 @@ void init() {
   locator.registerFactory(
     () => WatchlistTvseriesNotifier(
       getWatchlistTvseries: locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => SearchBloc(
+      locator(),
     ),
   );
 
