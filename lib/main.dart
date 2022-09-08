@@ -12,11 +12,6 @@ import 'package:tvseries/presentation/pages/popular_tvseries_page.dart';
 import 'package:tvseries/presentation/pages/top_rated_tvseries_page.dart';
 import 'package:tvseries/presentation/pages/tvseries_detail_page.dart';
 import 'package:core/presentation/pages/watchlist_page.dart';
-import 'package:movie/presentation/provider/movie_detail_notifier.dart';
-import 'package:movie/presentation/provider/movie_list_notifier.dart';
-import 'package:movie/presentation/provider/popular_movies_notifier.dart';
-import 'package:movie/presentation/provider/top_rated_movies_notifier.dart';
-import 'package:movie/presentation/provider/watchlist_movie_notifier.dart';
 import 'package:tvseries/presentation/provider/popular_tvseries_notifier.dart';
 import 'package:tvseries/presentation/provider/top_rated_tvseries_notifier.dart';
 import 'package:tvseries/presentation/provider/tvseries_detail_notifier.dart';
@@ -33,6 +28,7 @@ import 'package:search/presentation/pages/search_page_movie.dart';
 import 'package:search/presentation/pages/search_page_tvseries.dart';
 import 'package:search/bloc/movie/search_movie_bloc.dart';
 import 'package:search/bloc/tvseries/search_tvseries_bloc.dart';
+import 'package:movie/bloc/movie_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,21 +46,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => di.locator<MovieListNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<MovieDetailNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TopRatedMoviesNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<PopularMoviesNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistMovieNotifier>(),
-        ),
-        ChangeNotifierProvider(
           create: (_) => di.locator<TvseriesListNotifier>(),
         ),
         ChangeNotifierProvider(
@@ -79,12 +60,36 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.locator<WatchlistTvseriesNotifier>(),
         ),
+
+        // Movie
+        BlocProvider(
+          create: (_) => di.locator<MovieBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<MovieDetailBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TopRatedMovieBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<PopularMovieBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<WatchlistMovieBloc>(),
+        ),
         BlocProvider(
           create: (_) => di.locator<SearchMovieBloc>(),
         ),
+
+        // Tvseries
         BlocProvider(
           create: (_) => di.locator<SearchTvseriesBloc>(),
         ),
+
+        // Watchlist
+        // BlocProvider(
+        //   create: (_) => di.locator<LoadWatchlistStatus>(),
+        // ),
       ],
       child: MaterialApp(
         title: 'Ditonton',
