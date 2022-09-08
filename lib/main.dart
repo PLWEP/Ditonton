@@ -22,6 +22,8 @@ import 'package:core/presentation/provider/tvseries/top_rated_tvseries_notifier.
 import 'package:core/presentation/provider/tvseries/tvseries_detail_notifier.dart';
 import 'package:core/presentation/provider/tvseries/tvseries_list_notifier.dart';
 import 'package:core/presentation/provider/tvseries/watchlist_tvseries_notifier.dart';
+import 'package:ditonton/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,10 +32,14 @@ import 'package:ditonton/injection.dart' as di;
 import 'package:search/presentation/pages/search_page_movie.dart';
 import 'package:search/presentation/pages/search_page_tvseries.dart';
 import 'package:search/presentation/provider/tvseries_search_notifier.dart';
-import 'package:search/bloc/search_bloc.dart';
+import 'package:search/bloc/movie/search_movie_bloc.dart';
+import 'package:search/bloc/tvseries/search_tvseries_bloc.dart';
 
-void main() {
-  di.init();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
@@ -76,7 +82,10 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<WatchlistTvseriesNotifier>(),
         ),
         BlocProvider(
-          create: (_) => di.locator<SearchBloc>(),
+          create: (_) => di.locator<SearchMovieBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<SearchTvseriesBloc>(),
         ),
       ],
       child: MaterialApp(

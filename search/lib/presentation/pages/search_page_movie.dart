@@ -2,7 +2,7 @@ import 'package:core/styles/text_style.dart';
 import 'package:core/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:search/bloc/search_bloc.dart';
+import 'package:search/bloc/movie/search_movie_bloc.dart';
 
 class SearchPageMovie extends StatelessWidget {
   static const routeName = '/search_movie';
@@ -22,7 +22,7 @@ class SearchPageMovie extends StatelessWidget {
           children: [
             TextField(
               onChanged: (query) {
-                context.read<SearchBloc>().add(OnQueryChanged(query));
+                context.read<SearchMovieBloc>().add(OnQueryChanged(query));
               },
               decoration: const InputDecoration(
                 hintText: 'Search title',
@@ -36,7 +36,7 @@ class SearchPageMovie extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            BlocBuilder<SearchBloc, SearchState>(
+            BlocBuilder<SearchMovieBloc, SearchState>(
               builder: (context, state) {
                 if (state is SearchLoading) {
                   return const Center(
