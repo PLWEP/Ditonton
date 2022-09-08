@@ -1,4 +1,4 @@
-import 'package:core/domain/entities/tvseries.dart';
+import 'package:tvseries/domain/entities/tvseries.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search/domain/usecases/search_tvseries.dart';
 import 'package:equatable/equatable.dart';

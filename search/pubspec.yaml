@@ -11,12 +11,16 @@ dependencies:
   equatable: ^2.0.5
   provider: ^6.0.3
   dartz: ^0.10.1
-  core:
-    path: ../core
-  flutter:
-    sdk: flutter
   flutter_bloc: ^8.0.0
   rxdart: ^0.27.5
+  core:
+    path: ../core
+  tvseries:
+    path: ../tvseries
+  movie:
+    path: ../movie
+  flutter:
+    sdk: flutter
 
 dev_dependencies:
   test_cov_console: ^0.2.2

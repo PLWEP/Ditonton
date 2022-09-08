@@ -1,5 +1,5 @@
 import 'package:core/styles/text_style.dart';
-import 'package:core/presentation/widgets/tvseries_card_list.dart';
+import 'package:tvseries/presentation/widgets/tvseries_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -23,9 +23,8 @@ class SearchPageTvseries extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              onSubmitted: (query) {
-                Provider.of<TvseriesSearchNotifier>(context, listen: false)
-                    .fetchTvseriesSearch(query);
+              onChanged: (query) {
+                context.read<SearchTvseriesBloc>().add(OnQueryChanged(query));
               },
               decoration: const InputDecoration(
                 hintText: 'Search title',
@@ -66,7 +65,7 @@ class SearchPageTvseries extends StatelessWidget {
                 } else {
                   return const Expanded(
                     child: Center(
-                      child: Text("Kata kunci kurang tepat!"),
+                      child: Text("Data tidak ditemukan"),
                     ),
                   );
                 }

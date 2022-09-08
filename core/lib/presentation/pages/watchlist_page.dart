@@ -1,12 +1,12 @@
 import 'package:core/utils/state_enum.dart';
 import 'package:core/utils/utils.dart';
 import 'package:about/about.dart';
-import 'package:core/presentation/pages/movie/home_movie_page.dart';
-import 'package:core/presentation/pages/tvseries/home_tvseries_page.dart';
-import 'package:core/presentation/provider/movie/watchlist_movie_notifier.dart';
-import 'package:core/presentation/provider/tvseries/watchlist_tvseries_notifier.dart';
-import 'package:core/presentation/widgets/movie_card_list.dart';
-import 'package:core/presentation/widgets/tvseries_card_list.dart';
+import 'package:movie/presentation/pages/home_movie_page.dart';
+import 'package:tvseries/presentation/pages/home_tvseries_page.dart';
+import 'package:movie/presentation/provider/watchlist_movie_notifier.dart';
+import 'package:tvseries/presentation/provider/watchlist_tvseries_notifier.dart';
+import 'package:movie/presentation/widgets/movie_card_list.dart';
+import 'package:tvseries/presentation/widgets/tvseries_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

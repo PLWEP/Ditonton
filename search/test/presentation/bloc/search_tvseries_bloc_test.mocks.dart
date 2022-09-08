@@ -5,12 +5,12 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i5;
 
-import 'package:core/domain/entities/tvseries.dart' as _i7;
-import 'package:core/domain/repositories/tvseries_repository.dart' as _i2;
 import 'package:core/utils/failure.dart' as _i6;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:search/domain/usecases/search_tvseries.dart' as _i4;
+import 'package:tvseries/domain/entities/tvseries.dart' as _i7;
+import 'package:tvseries/domain/repositories/tvseries_repository.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

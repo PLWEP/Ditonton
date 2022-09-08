@@ -1,5 +1,5 @@
 import 'package:core/utils/state_enum.dart';
-import 'package:core/domain/entities/tvseries.dart';
+import 'package:tvseries/domain/entities/tvseries.dart';
 import 'package:search/domain/usecases/search_tvseries.dart';
 import 'package:flutter/cupertino.dart';
 

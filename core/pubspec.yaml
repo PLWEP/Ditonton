@@ -8,12 +8,13 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  cached_network_image: ^3.0.0
-  flutter_rating_bar: ^4.0.0
   about:
     path: ../about
+  movie:
+    path: ../movie
+  tvseries:
+    path: ../tvseries
   provider: ^6.0.3
-  dartz: ^0.10.1
   sqflite: ^2.0.0+3
   data_connection_checker:
     git:

@@ -212,7 +212,7 @@ packages:
     source: hosted
     version: "0.10.1"
   data_connection_checker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "."
       ref: master
@@ -369,7 +369,7 @@ packages:
     source: hosted
     version: "2.1.0"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -445,6 +445,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  movie:
+    dependency: "direct main"
+    description:
+      path: movie
+      relative: true
+    source: path
+    version: "0.0.1"
   nested:
     dependency: transitive
     description:
@@ -688,6 +695,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  tvseries:
+    dependency: "direct main"
+    description:
+      path: tvseries
+      relative: true
+    source: path
+    version: "0.0.1"
   typed_data:
     dependency: transitive
     description:
