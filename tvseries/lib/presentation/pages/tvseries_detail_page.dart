@@ -1,16 +1,13 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/styles/colors.dart';
 import 'package:core/styles/text_style.dart';
-import 'package:core/utils/state_enum.dart';
+import 'package:core/utils/routes.dart';
 import 'package:core/domain/entities/genre.dart';
-import 'package:tvseries/domain/entities/tvseries.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tvseries/bloc/tvseries_bloc.dart';
 import 'package:tvseries/domain/entities/tvseries_detail.dart';
-import 'package:tvseries/presentation/provider/tvseries_detail_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:provider/provider.dart';
 
 class TvseriesDetailPage extends StatefulWidget {
   static const routeName = '/detail_tvseries';
@@ -27,33 +24,58 @@ class TvseriesDetailPageState extends State<TvseriesDetailPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      Provider.of<TvseriesDetailNotifier>(context, listen: false)
-          .fetchTvseriesDetail(widget.id);
-      Provider.of<TvseriesDetailNotifier>(context, listen: false)
-          .loadWatchlistStatus(widget.id);
+      context
+          .read<RecommendationTvseriesBloc>()
+          .add(FetchTvseriesDataWithId(widget.id));
+      context
+          .read<TvseriesDetailBloc>()
+          .add(FetchTvseriesDataWithId(widget.id));
+      context.read<TvseriesDetailBloc>().add(LoadWatchlistStatus(widget.id));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<TvseriesDetailNotifier>(
-        builder: (context, provider, child) {
-          if (provider.tvseriesState == RequestState.loading) {
+      body: BlocConsumer<TvseriesDetailBloc, TvseriesDetailState>(
+        listener: (context, state) async {
+          if (state.watchlistMessage ==
+                  TvseriesDetailBloc.watchlistAddSuccessMessage ||
+              state.watchlistMessage ==
+                  TvseriesDetailBloc.watchlistRemoveSuccessMessage) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.watchlistMessage),
+              duration: const Duration(seconds: 1),
+            ));
+          } else {
+            await showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: Text(state.watchlistMessage),
+                  );
+                });
+          }
+        },
+        listenWhen: (previousState, currentState) =>
+            previousState.watchlistMessage != currentState.watchlistMessage &&
+            currentState.watchlistMessage != '',
+        builder: (context, state) {
+          if (state.state == LoadingData()) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (provider.tvseriesState == RequestState.loaded) {
-            final tvseries = provider.tvseries;
+          } else if (state.state == LoadedData()) {
+            final tvseries = state.tvseriesDetail!;
+            final status = state.isAddedToWatchlist;
             return SafeArea(
               child: DetailContent(
                 tvseries,
-                provider.tvseriesRecommendations,
-                provider.isAddedToWatchlist,
+                status,
               ),
             );
           } else {
-            return Text(provider.message);
+            return const Center(child: Text("Failed to load"));
           }
         },
       ),
@@ -63,12 +85,9 @@ class TvseriesDetailPageState extends State<TvseriesDetailPage> {
 
 class DetailContent extends StatelessWidget {
   final TvseriesDetail tvseries;
-  final List<Tvseries> recommendations;
   final bool isAddedWatchlist;
 
-  const DetailContent(
-      this.tvseries, this.recommendations, this.isAddedWatchlist,
-      {Key? key})
+  const DetailContent(this.tvseries, this.isAddedWatchlist, {Key? key})
       : super(key: key);
 
   @override
@@ -112,40 +131,15 @@ class DetailContent extends StatelessWidget {
                               style: kHeading5,
                             ),
                             ElevatedButton(
-                              onPressed: () async {
+                              onPressed: () {
                                 if (!isAddedWatchlist) {
-                                  await Provider.of<TvseriesDetailNotifier>(
-                                          context,
-                                          listen: false)
-                                      .addWatchlist(tvseries);
+                                  context
+                                      .read<TvseriesDetailBloc>()
+                                      .add(AddWatchlist(tvseries));
                                 } else {
-                                  await Provider.of<TvseriesDetailNotifier>(
-                                          context,
-                                          listen: false)
-                                      .removeFromWatchlist(tvseries);
-                                }
-
-                                final message =
-                                    Provider.of<TvseriesDetailNotifier>(context,
-                                            listen: false)
-                                        .watchlistMessage;
-
-                                if (message ==
-                                        TvseriesDetailNotifier
-                                            .watchlistAddSuccessMessage ||
-                                    message ==
-                                        TvseriesDetailNotifier
-                                            .watchlistRemoveSuccessMessage) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text(message)));
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Text(message),
-                                        );
-                                      });
+                                  context
+                                      .read<TvseriesDetailBloc>()
+                                      .add(RemoveWatchlist(tvseries));
                                 }
                               },
                               child: Row(
@@ -196,31 +190,28 @@ class DetailContent extends StatelessWidget {
                               'Recommendations',
                               style: kHeading6,
                             ),
-                            Consumer<TvseriesDetailNotifier>(
-                              builder: (context, data, child) {
-                                if (data.recommendationState ==
-                                    RequestState.loading) {
+                            BlocBuilder<RecommendationTvseriesBloc,
+                                TvseriesState>(
+                              builder: (context, state) {
+                                if (state is LoadingData) {
                                   return const Center(
                                     child: CircularProgressIndicator(),
                                   );
-                                } else if (data.recommendationState ==
-                                    RequestState.error) {
-                                  return Text(data.message);
-                                } else if (data.recommendationState ==
-                                    RequestState.loaded) {
+                                } else if (state is TvseriesHasData) {
+                                  final result = state.result;
                                   return SizedBox(
                                     height: 150,
                                     child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) {
-                                        final tvseries = recommendations[index];
+                                        final tvseries = result[index];
                                         return Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: InkWell(
                                             onTap: () {
                                               Navigator.pushReplacementNamed(
                                                 context,
-                                                TvseriesDetailPage.routeName,
+                                                tvseriesDetailRoute,
                                                 arguments: tvseries.id,
                                               );
                                             },
@@ -245,26 +236,26 @@ class DetailContent extends StatelessWidget {
                                           ),
                                         );
                                       },
-                                      itemCount: recommendations.length,
+                                      itemCount: result.length,
                                     ),
                                   );
                                 } else {
-                                  return Container();
+                                  return const Text('Failed');
                                 }
                               },
+                            ),
+                            Align(
+                              alignment: Alignment.topCenter,
+                              child: Container(
+                                color: Colors.white,
+                                height: 4,
+                                width: 48,
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        color: Colors.white,
-                        height: 4,
-                        width: 48,
-                      ),
-                    ),
+                    )
                   ],
                 ),
               );
