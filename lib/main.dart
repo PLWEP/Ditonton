@@ -12,11 +12,6 @@ import 'package:tvseries/presentation/pages/popular_tvseries_page.dart';
 import 'package:tvseries/presentation/pages/top_rated_tvseries_page.dart';
 import 'package:tvseries/presentation/pages/tvseries_detail_page.dart';
 import 'package:core/presentation/pages/watchlist_page.dart';
-import 'package:tvseries/presentation/provider/popular_tvseries_notifier.dart';
-import 'package:tvseries/presentation/provider/top_rated_tvseries_notifier.dart';
-import 'package:tvseries/presentation/provider/tvseries_detail_notifier.dart';
-import 'package:tvseries/presentation/provider/tvseries_list_notifier.dart';
-import 'package:tvseries/presentation/provider/watchlist_tvseries_notifier.dart';
 import 'package:ditonton/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,6 +24,7 @@ import 'package:search/presentation/pages/search_page_tvseries.dart';
 import 'package:search/bloc/movie/search_movie_bloc.dart';
 import 'package:search/bloc/tvseries/search_tvseries_bloc.dart';
 import 'package:movie/bloc/movie_bloc.dart';
+import 'package:tvseries/bloc/tvseries_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,22 +41,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvseriesListNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvseriesDetailNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TopRatedTvseriesNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<PopularTvseriesNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistTvseriesNotifier>(),
-        ),
-
         // Movie
         BlocProvider(
           create: (_) => di.locator<MovieBloc>(),
@@ -85,6 +65,24 @@ class MyApp extends StatelessWidget {
         ),
 
         // Tvseries
+        BlocProvider(
+          create: (_) => di.locator<TvseriesBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TvseriesDetailBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<RecommendationTvseriesBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TopRatedTvseriesBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<PopularTvseriesBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<WatchlistTvseriesBloc>(),
+        ),
         BlocProvider(
           create: (_) => di.locator<SearchTvseriesBloc>(),
         ),
