@@ -92,80 +92,85 @@ class WatchlistMovieBloc extends Bloc<MovieEvent, MovieState> {
   }
 }
 
-// class MovieDetailBloc extends Bloc<MovieEvent, MovieState> {
-//   final GetMovieDetail getMovieDetail;
-//   final GetMovieRecommendations getMovieRecommendations;
-//   final GetWatchListStatusMovie getWatchListStatus;
-//   final SaveWatchlistMovie saveWatchlist;
-//   final RemoveWatchlistMovie removeWatchlist;
+class RecommendationMoviesBloc extends Bloc<MovieEvent, MovieState> {
+  final GetMovieRecommendations _getMovieRecommendations;
 
-//   static const watchlistAddSuccessMessage = 'Added to Watchlist';
-//   static const watchlistRemoveSuccessMessage = 'Removed from Watchlist';
+  RecommendationMoviesBloc(
+    this._getMovieRecommendations,
+  ) : super(EmptyData()) {
+    on<FetchMovieDataWithId>((event, emit) async {
+      final id = event.id;
+      emit(LoadingData());
+      final result = await _getMovieRecommendations.execute(id);
 
-//   MovieDetailBloc({
-//     required this.getMovieDetail,
-//     required this.getMovieRecommendations,
-//     required this.getWatchListStatus,
-//     required this.saveWatchlist,
-//     required this.removeWatchlist,
-//   }) : super(MovieDetailHasData.initial()) {
-//     on<FetchMovieDataWithId>((event, emit) async {
-//       emit(LoadingData());
-//       final detailResult = await getMovieDetail.execute(event.id);
-//       final recommendationResult =
-//           await getMovieRecommendations.execute(event.id);
+      result.fold(
+        (failure) {
+          emit(ErrorData(failure.message));
+        },
+        (data) {
+          emit(MovieHasData(data));
+        },
+      );
+    });
+  }
+}
 
-//       detailResult.fold(
-//         (failure) async {
-//           emit(ErrorData(failure.message));
-//         },
-//         (movie) async {
-//           emit(MovieDetailHasData(
-//             movieDetail: movie,
-//             message: '', isAddedToWatchlist: null, movieRecommendations: [], watchlistMessage: '',
-//           ));
-//           recommendationResult.fold(
-//             (failure) {
-//               emit(state.copyWith(
-//                   movieRecommendationState: ErrorData(failure.message),
-//                   message: failure.message));
-//             },
-//             (movies) {
-//               emit(state.copyWith(
-//                 movieRecommendationState: RequestState.Loaded,
-//                 movieRecommendations: movies,
-//                 message: '',
-//               ));
-//             },
-//           );
-//         },
-//       );
-//     });
-//     on<AddToWatchlist>((event, emit) async {
-//       final result = await saveWatchlist.execute(event.movieDetail);
+class MovieDetailBloc extends Bloc<MovieEvent, MovieDetailState> {
+  final GetMovieDetail getMovieDetail;
+  final GetWatchListStatusMovie getWatchListStatus;
+  final SaveWatchlistMovie saveWatchlist;
+  final RemoveWatchlistMovie removeWatchlist;
 
-//       result.fold((failure) {
-//         emit(state.copyWith(watchlistMessage: failure.message));
-//       }, (successMessage) {
-//         emit(state.copyWith(watchlistMessage: successMessage));
-//       });
+  static const watchlistAddSuccessMessage = 'Added to Watchlist';
+  static const watchlistRemoveSuccessMessage = 'Removed from Watchlist';
 
-//       add(LoadWatchlistStatus(event.movieDetail.id));
-//     });
-//     on<RemoveFromWatchlist>((event, emit) async {
-//       final result = await removeWatchlist.execute(event.movieDetail);
+  MovieDetailBloc({
+    required this.getMovieDetail,
+    required this.getWatchListStatus,
+    required this.saveWatchlist,
+    required this.removeWatchlist,
+  }) : super(MovieDetailState.initial()) {
+    on<FetchMovieDataWithId>((event, emit) async {
+      emit(state.copyWith(state: LoadingData()));
+      final detailResult = await getMovieDetail.execute(event.id);
 
-//       result.fold((failure) {
-//         emit(state.copyWith(watchlistMessage: failure.message));
-//       }, (successMessage) {
-//         emit(state.copyWith(watchlistMessage: successMessage));
-//       });
+      detailResult.fold(
+        (failure) async {
+          emit(state.copyWith(state: ErrorData(failure.message)));
+        },
+        (movie) async {
+          emit(state.copyWith(
+            state: LoadedData(),
+            movieDetail: movie,
+          ));
+        },
+      );
+    });
+    on<AddWatchlist>((event, emit) async {
+      final result = await saveWatchlist.execute(event.movieDetail);
 
-//       add(LoadWatchlistStatus(event.movieDetail.id));
-//     });
-//     on<LoadWatchlistStatus>((event, emit) async {
-//       final result = await getWatchListStatus.execute(event.id);
-//       emit(state.copyWith(isAddedToWatchlist: result));
-//     });
-//   }
-// }
+      result.fold((failure) {
+        emit(state.copyWith(watchlistMessage: failure.message));
+      }, (successMessage) {
+        emit(state.copyWith(watchlistMessage: successMessage));
+      });
+
+      add(LoadWatchlistStatus(event.movieDetail.id));
+    });
+    on<RemoveWatchlist>((event, emit) async {
+      final result = await removeWatchlist.execute(event.movieDetail);
+
+      result.fold((failure) {
+        emit(state.copyWith(watchlistMessage: failure.message));
+      }, (successMessage) {
+        emit(state.copyWith(watchlistMessage: successMessage));
+      });
+
+      add(LoadWatchlistStatus(event.movieDetail.id));
+    });
+    on<LoadWatchlistStatus>((event, emit) async {
+      final result = await getWatchListStatus.execute(event.id);
+      emit(state.copyWith(isAddedToWatchlist: result));
+    });
+  }
+}

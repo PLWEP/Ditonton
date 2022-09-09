@@ -69,6 +69,9 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<MovieDetailBloc>(),
         ),
         BlocProvider(
+          create: (_) => di.locator<RecommendationMoviesBloc>(),
+        ),
+        BlocProvider(
           create: (_) => di.locator<TopRatedMovieBloc>(),
         ),
         BlocProvider(
@@ -85,11 +88,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => di.locator<SearchTvseriesBloc>(),
         ),
-
-        // Watchlist
-        // BlocProvider(
-        //   create: (_) => di.locator<LoadWatchlistStatus>(),
-        // ),
       ],
       child: MaterialApp(
         title: 'Ditonton',
@@ -136,13 +134,7 @@ class MyApp extends StatelessWidget {
             case aboutRoute:
               return MaterialPageRoute(builder: (_) => AboutPage());
             default:
-              return MaterialPageRoute(builder: (_) {
-                return Scaffold(
-                  body: Center(
-                    child: Text('Page not found :('),
-                  ),
-                );
-              });
+              return MaterialPageRoute(builder: (_) => HomeMoviePage());
           }
         },
       ),

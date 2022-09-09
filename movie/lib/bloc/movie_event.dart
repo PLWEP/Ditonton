@@ -23,21 +23,21 @@ class FetchMovieDataWithId extends MovieEvent {
 }
 
 class AddWatchlist extends MovieEvent {
-  final MovieDetail movie;
+  final MovieDetail movieDetail;
 
-  const AddWatchlist(this.movie);
+  const AddWatchlist(this.movieDetail);
 
   @override
-  List<Object> get props => [movie];
+  List<Object> get props => [movieDetail];
 }
 
 class RemoveWatchlist extends MovieEvent {
-  final MovieDetail movie;
+  final MovieDetail movieDetail;
 
-  const RemoveWatchlist(this.movie);
+  const RemoveWatchlist(this.movieDetail);
 
   @override
-  List<Object> get props => [movie];
+  List<Object> get props => [movieDetail];
 }
 
 class LoadWatchlistStatus extends MovieEvent {

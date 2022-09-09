@@ -4,8 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/styles/colors.dart';
 import 'package:core/styles/text_style.dart';
 import 'package:core/domain/entities/genre.dart';
+import 'package:core/utils/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/bloc/movie_bloc.dart';
+import 'package:movie/domain/entities/movie.dart';
 import 'package:movie/domain/entities/movie_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -25,31 +27,58 @@ class MovieDetailPageState extends State<MovieDetailPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
+      context
+          .read<RecommendationMoviesBloc>()
+          .add(FetchMovieDataWithId(widget.id));
       context.read<MovieDetailBloc>().add(FetchMovieDataWithId(widget.id));
+      context.read<MovieDetailBloc>().add(LoadWatchlistStatus(widget.id));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<MovieDetailBloc, MovieState>(builder: (context, state) {
-        if (state is LoadingData) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state is MovieDetailHasData) {
-          final result = state.result;
-          final status = state.status;
-          return SafeArea(
-            child: DetailContent(
-              result,
-              status,
-            ),
-          );
-        } else {
-          return const Text('Failed');
-        }
-      }),
+      body: BlocConsumer<MovieDetailBloc, MovieDetailState>(
+        listener: (context, state) async {
+          if (state.watchlistMessage ==
+                  MovieDetailBloc.watchlistAddSuccessMessage ||
+              state.watchlistMessage ==
+                  MovieDetailBloc.watchlistRemoveSuccessMessage) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.watchlistMessage),
+            ));
+          } else {
+            await showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: Text(state.watchlistMessage),
+                  );
+                });
+          }
+        },
+        listenWhen: (previousState, currentState) =>
+            previousState.watchlistMessage != currentState.watchlistMessage &&
+            currentState.watchlistMessage != '',
+        builder: (context, state) {
+          if (state.state == LoadingData()) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state.state == LoadedData()) {
+            final movie = state.movieDetail!;
+            final status = state.isAddedToWatchlist;
+            return SafeArea(
+              child: DetailContent(
+                movie,
+                status,
+              ),
+            );
+          } else {
+            return const Center(child: Text("Failed to load"));
+          }
+        },
+      ),
     );
   }
 }
@@ -112,13 +141,6 @@ class DetailContent extends StatelessWidget {
                                       .read<MovieDetailBloc>()
                                       .add(RemoveWatchlist(movie));
                                 }
-                                // showDialog(
-                                //     context: context,
-                                //     builder: (context) {
-                                //       return AlertDialog(
-                                //         content: Text(message),
-                                //       );
-                                //     });
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -163,7 +185,7 @@ class DetailContent extends StatelessWidget {
                               'Recommendations',
                               style: kHeading6,
                             ),
-                            BlocBuilder<MovieBloc, MovieState>(
+                            BlocBuilder<RecommendationMoviesBloc, MovieState>(
                               builder: (context, state) {
                                 if (state is LoadingData) {
                                   return const Center(
@@ -183,7 +205,7 @@ class DetailContent extends StatelessWidget {
                                             onTap: () {
                                               Navigator.pushReplacementNamed(
                                                 context,
-                                                MovieDetailPage.routeName,
+                                                movieDetailRoute,
                                                 arguments: movie.id,
                                               );
                                             },
@@ -216,18 +238,18 @@ class DetailContent extends StatelessWidget {
                                 }
                               },
                             ),
+                            Align(
+                              alignment: Alignment.topCenter,
+                              child: Container(
+                                color: Colors.white,
+                                height: 4,
+                                width: 48,
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        color: Colors.white,
-                        height: 4,
-                        width: 48,
-                      ),
-                    ),
+                    )
                   ],
                 ),
               );
