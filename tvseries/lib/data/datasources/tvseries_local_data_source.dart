@@ -18,14 +18,14 @@ class TvseriesLocalDataSourceImpl implements TvseriesLocalDataSource {
 
   @override
   Future<void> cacheNowPlayingTvseries(List<TvseriesTable> tvseries) async {
-    await databaseHelper.clearCache('now playing');
+    await databaseHelper.clearCacheTvseries('now playing');
     await databaseHelper.insertTvseriesCacheTransaction(
         tvseries, 'now playing');
   }
 
   @override
   Future<List<TvseriesTable>> getCachedNowPlayingTvseries() async {
-    final result = await databaseHelper.getCache('now playing');
+    final result = await databaseHelper.getCacheTvseries('now playing');
     if (result.isNotEmpty) {
       return result.map((data) => TvseriesTable.fromMap(data)).toList();
     } else {

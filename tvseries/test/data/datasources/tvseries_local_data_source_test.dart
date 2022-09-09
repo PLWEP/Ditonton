@@ -103,19 +103,19 @@ void main() {
   group('cache now playing tvseries', () {
     test('should call database helper to save data', () async {
       // arrange
-      when(mockDatabaseHelper.clearCache('now playing'))
+      when(mockDatabaseHelper.clearCacheTvseries('now playing'))
           .thenAnswer((_) async => 1);
       // act
       await dataSource.cacheNowPlayingTvseries([testTvseriesCache]);
       // assert
-      verify(mockDatabaseHelper.clearCache('now playing'));
+      verify(mockDatabaseHelper.clearCacheTvseries('now playing'));
       verify(mockDatabaseHelper
           .insertTvseriesCacheTransaction([testTvseriesCache], 'now playing'));
     });
 
     test('should return list of Tvseries from db when data exist', () async {
       // arrange
-      when(mockDatabaseHelper.getCache('now playing'))
+      when(mockDatabaseHelper.getCacheTvseries('now playing'))
           .thenAnswer((_) async => [testTvseriesCacheMap]);
       // act
       final result = await dataSource.getCachedNowPlayingTvseries();
@@ -125,7 +125,7 @@ void main() {
 
     test('should throw CacheException when cache data is not exist', () async {
       // arrange
-      when(mockDatabaseHelper.getCache('now playing'))
+      when(mockDatabaseHelper.getCacheTvseries('now playing'))
           .thenAnswer((_) async => []);
       // act
       final call = dataSource.getCachedNowPlayingTvseries();

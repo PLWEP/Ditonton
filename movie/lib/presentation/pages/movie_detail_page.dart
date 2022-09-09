@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/styles/colors.dart';
 import 'package:core/styles/text_style.dart';
@@ -7,7 +5,6 @@ import 'package:core/domain/entities/genre.dart';
 import 'package:core/utils/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/bloc/movie_bloc.dart';
-import 'package:movie/domain/entities/movie.dart';
 import 'package:movie/domain/entities/movie_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -46,6 +43,7 @@ class MovieDetailPageState extends State<MovieDetailPage> {
                   MovieDetailBloc.watchlistRemoveSuccessMessage) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(state.watchlistMessage),
+              duration: const Duration(seconds: 1),
             ));
           } else {
             await showDialog(

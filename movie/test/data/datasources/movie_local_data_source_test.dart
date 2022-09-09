@@ -101,19 +101,19 @@ void main() {
   group('cache now playing movies', () {
     test('should call database helper to save data', () async {
       // arrange
-      when(mockDatabaseHelper.clearCache('now playing'))
+      when(mockDatabaseHelper.clearCacheMovie('now playing'))
           .thenAnswer((_) async => 1);
       // act
       await dataSource.cacheNowPlayingMovies([testMovieCache]);
       // assert
-      verify(mockDatabaseHelper.clearCache('now playing'));
+      verify(mockDatabaseHelper.clearCacheMovie('now playing'));
       verify(mockDatabaseHelper
           .insertMovieCacheTransaction([testMovieCache], 'now playing'));
     });
 
     test('should return list of movies from db when data exist', () async {
       // arrange
-      when(mockDatabaseHelper.getCache('now playing'))
+      when(mockDatabaseHelper.getCacheMovie('now playing'))
           .thenAnswer((_) async => [testMovieCacheMap]);
       // act
       final result = await dataSource.getCachedNowPlayingMovies();
@@ -123,7 +123,7 @@ void main() {
 
     test('should throw CacheException when cache data is not exist', () async {
       // arrange
-      when(mockDatabaseHelper.getCache('now playing'))
+      when(mockDatabaseHelper.getCacheMovie('now playing'))
           .thenAnswer((_) async => []);
       // act
       final call = dataSource.getCachedNowPlayingMovies();

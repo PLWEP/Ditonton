@@ -68,14 +68,24 @@ class MockDatabaseHelper extends _i1.Mock implements _i3.DatabaseHelper {
               returnValueForMissingStub: _i4.Future<void>.value())
           as _i4.Future<void>);
   @override
-  _i4.Future<List<Map<String, dynamic>>> getCache(String? category) =>
-      (super.noSuchMethod(Invocation.method(#getCache, [category]),
+  _i4.Future<List<Map<String, dynamic>>> getCacheMovie(String? category) =>
+      (super.noSuchMethod(Invocation.method(#getCacheMovie, [category]),
               returnValue: _i4.Future<List<Map<String, dynamic>>>.value(
                   <Map<String, dynamic>>[]))
           as _i4.Future<List<Map<String, dynamic>>>);
   @override
-  _i4.Future<int> clearCache(String? category) =>
-      (super.noSuchMethod(Invocation.method(#clearCache, [category]),
+  _i4.Future<List<Map<String, dynamic>>> getCacheTvseries(String? category) =>
+      (super.noSuchMethod(Invocation.method(#getCacheTvseries, [category]),
+              returnValue: _i4.Future<List<Map<String, dynamic>>>.value(
+                  <Map<String, dynamic>>[]))
+          as _i4.Future<List<Map<String, dynamic>>>);
+  @override
+  _i4.Future<int> clearCacheMovie(String? category) =>
+      (super.noSuchMethod(Invocation.method(#clearCacheMovie, [category]),
+          returnValue: _i4.Future<int>.value(0)) as _i4.Future<int>);
+  @override
+  _i4.Future<int> clearCacheTvseries(String? category) =>
+      (super.noSuchMethod(Invocation.method(#clearCacheTvseries, [category]),
           returnValue: _i4.Future<int>.value(0)) as _i4.Future<int>);
   @override
   _i4.Future<int> insertMovieWatchlist(_i6.MovieTable? movie) =>

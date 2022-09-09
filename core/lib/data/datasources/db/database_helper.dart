@@ -60,7 +60,8 @@ class DatabaseHelper {
         final movieJson = movie.toJson();
         movieJson['category'] = category;
         movieJson['type'] = "movie";
-        txn.insert(_tblCache, movieJson);
+        txn.insert(_tblCache, movieJson,
+            conflictAlgorithm: ConflictAlgorithm.replace);
       }
     });
   }
@@ -73,27 +74,48 @@ class DatabaseHelper {
         final tvseriesJson = tvseries.toJson();
         tvseriesJson['category'] = category;
         tvseriesJson['type'] = "tvseries";
-        txn.insert(_tblCache, tvseriesJson);
+        txn.insert(_tblCache, tvseriesJson,
+            conflictAlgorithm: ConflictAlgorithm.replace);
       }
     });
   }
 
-  Future<List<Map<String, dynamic>>> getCache(String category) async {
+  Future<List<Map<String, dynamic>>> getCacheMovie(String category) async {
     final db = await database;
     final List<Map<String, dynamic>> results = await db!.query(
       _tblCache,
-      where: 'category = ?',
+      where: 'category = ? and type = "movie" ',
       whereArgs: [category],
     );
 
     return results;
   }
 
-  Future<int> clearCache(String category) async {
+  Future<List<Map<String, dynamic>>> getCacheTvseries(String category) async {
+    final db = await database;
+    final List<Map<String, dynamic>> results = await db!.query(
+      _tblCache,
+      where: 'category = ? and type = "tvseries" ',
+      whereArgs: [category],
+    );
+
+    return results;
+  }
+
+  Future<int> clearCacheMovie(String category) async {
     final db = await database;
     return await db!.delete(
       _tblCache,
-      where: 'category = ?',
+      where: 'category = ? and type = "movie" ',
+      whereArgs: [category],
+    );
+  }
+
+  Future<int> clearCacheTvseries(String category) async {
+    final db = await database;
+    return await db!.delete(
+      _tblCache,
+      where: 'category = ? and type = "tvseries" ',
       whereArgs: [category],
     );
   }

@@ -54,13 +54,13 @@ class MovieLocalDataSourceImpl implements MovieLocalDataSource {
 
   @override
   Future<void> cacheNowPlayingMovies(List<MovieTable> movies) async {
-    await databaseHelper.clearCache('now playing');
+    await databaseHelper.clearCacheMovie('now playing');
     await databaseHelper.insertMovieCacheTransaction(movies, 'now playing');
   }
 
   @override
   Future<List<MovieTable>> getCachedNowPlayingMovies() async {
-    final result = await databaseHelper.getCache('now playing');
+    final result = await databaseHelper.getCacheMovie('now playing');
     if (result.isNotEmpty) {
       return result.map((data) => MovieTable.fromMap(data)).toList();
     } else {
