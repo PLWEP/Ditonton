@@ -85,4 +85,122 @@ void main() {
       },
     );
   });
+
+  group('Watchlist Status', () {
+    blocTest<TvseriesDetailBloc, TvseriesDetailState>(
+      'Get Watchlist Status',
+      build: () {
+        when(mockGetWatchlistStatus.execute(tId)).thenAnswer((_) async => true);
+        return detailBloc;
+      },
+      act: (bloc) => bloc.add(const LoadWatchlistStatus(tId)),
+      expect: () => [
+        detailBloc.state.copyWith(
+          isAddedToWatchlist: true,
+        ),
+      ],
+      verify: (_) {
+        verify(mockGetWatchlistStatus.execute(tId));
+      },
+    );
+
+    blocTest<TvseriesDetailBloc, TvseriesDetailState>(
+      'Should execute save watchlist when function called',
+      build: () {
+        when(mockSaveWatchlist.execute(testTvseriesDetail))
+            .thenAnswer((_) async => const Right('Success'));
+        when(mockGetWatchlistStatus.execute(testTvseriesDetail.id))
+            .thenAnswer((_) async => true);
+        return detailBloc;
+      },
+      act: (bloc) => bloc.add(const AddWatchlist(testTvseriesDetail)),
+      expect: () => [
+        detailBloc.state
+            .copyWith(watchlistMessage: 'Success', isAddedToWatchlist: false),
+        detailBloc.state
+            .copyWith(watchlistMessage: 'Success', isAddedToWatchlist: true),
+      ],
+      verify: (_) {
+        verify(mockSaveWatchlist.execute(testTvseriesDetail));
+      },
+    );
+
+    blocTest<TvseriesDetailBloc, TvseriesDetailState>(
+      'should execute remove watchlist when function called',
+      build: () {
+        when(mockRemoveWatchlist.execute(testTvseriesDetail))
+            .thenAnswer((_) async => const Right('Removed'));
+        when(mockGetWatchlistStatus.execute(testTvseriesDetail.id))
+            .thenAnswer((_) async => false);
+        return detailBloc;
+      },
+      act: (bloc) => bloc.add(const RemoveWatchlist(testTvseriesDetail)),
+      expect: () => [
+        detailBloc.state
+            .copyWith(watchlistMessage: 'Removed', isAddedToWatchlist: false),
+      ],
+      verify: (_) {
+        verify(mockRemoveWatchlist.execute(testTvseriesDetail));
+      },
+    );
+
+    blocTest<TvseriesDetailBloc, TvseriesDetailState>(
+      'should update watchlist status when add watchlist success',
+      build: () {
+        when(mockSaveWatchlist.execute(testTvseriesDetail))
+            .thenAnswer((_) async => const Right('added to watchlist'));
+        when(mockGetWatchlistStatus.execute(testTvseriesDetail.id))
+            .thenAnswer((_) async => true);
+        return detailBloc;
+      },
+      act: (bloc) => bloc.add(const AddWatchlist(testTvseriesDetail)),
+      expect: () => [
+        detailBloc.state.copyWith(
+            watchlistMessage: 'added to watchlist', isAddedToWatchlist: false),
+        detailBloc.state.copyWith(
+            watchlistMessage: 'added to watchlist', isAddedToWatchlist: true),
+      ],
+      verify: (_) {
+        verify(mockSaveWatchlist.execute(testTvseriesDetail));
+      },
+    );
+
+    blocTest<TvseriesDetailBloc, TvseriesDetailState>(
+      'should update watchlist message when add watchlist failed',
+      build: () {
+        when(mockSaveWatchlist.execute(testTvseriesDetail)).thenAnswer(
+            (_) async => const Left(ServerFailure('Server Failure')));
+        when(mockGetWatchlistStatus.execute(testTvseriesDetail.id))
+            .thenAnswer((_) async => false);
+        return detailBloc;
+      },
+      act: (bloc) => bloc.add(const AddWatchlist(testTvseriesDetail)),
+      expect: () => [
+        detailBloc.state.copyWith(
+            watchlistMessage: 'Server Failure', isAddedToWatchlist: false),
+      ],
+      verify: (_) {
+        verify(mockSaveWatchlist.execute(testTvseriesDetail));
+      },
+    );
+
+    blocTest<TvseriesDetailBloc, TvseriesDetailState>(
+      'should update watchlist message when remove watchlist failed',
+      build: () {
+        when(mockRemoveWatchlist.execute(testTvseriesDetail)).thenAnswer(
+            (_) async => const Left(ServerFailure('Server Failure')));
+        when(mockGetWatchlistStatus.execute(testTvseriesDetail.id))
+            .thenAnswer((_) async => false);
+        return detailBloc;
+      },
+      act: (bloc) => bloc.add(const RemoveWatchlist(testTvseriesDetail)),
+      expect: () => [
+        detailBloc.state.copyWith(
+            watchlistMessage: 'Server Failure', isAddedToWatchlist: false),
+      ],
+      verify: (_) {
+        verify(mockRemoveWatchlist.execute(testTvseriesDetail));
+      },
+    );
+  });
 }

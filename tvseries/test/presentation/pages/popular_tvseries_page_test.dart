@@ -72,4 +72,15 @@ void main() {
     expect(progressBarFinder, findsNothing);
     expect(listViewFinder, findsNothing);
   });
+
+  testWidgets('Page should display container when state is strange',
+      (WidgetTester tester) async {
+    when(() => mockBloc.state).thenReturn(LoadedData());
+
+    final containerFinder = find.byType(Container);
+
+    await tester.pumpWidget(_makeTestableWidget(const PopularTvseriesPage()));
+
+    expect(containerFinder, findsOneWidget);
+  });
 }

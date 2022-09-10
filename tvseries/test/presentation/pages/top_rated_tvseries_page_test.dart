@@ -59,4 +59,28 @@ void main() {
 
     expect(listViewFinder, findsOneWidget);
   });
+
+  testWidgets('Page should not display progressbar and listview when Error',
+      (WidgetTester tester) async {
+    when(() => mockBloc.state).thenReturn(const ErrorData('Error message'));
+
+    final progressBarFinder = find.byType(CircularProgressIndicator);
+    final listViewFinder = find.byType(ListView);
+
+    await tester.pumpWidget(_makeTestableWidget(const TopRatedTvseriesPage()));
+
+    expect(progressBarFinder, findsNothing);
+    expect(listViewFinder, findsNothing);
+  });
+
+  testWidgets('Page should display container when state is strange',
+      (WidgetTester tester) async {
+    when(() => mockBloc.state).thenReturn(LoadedData());
+
+    final containerFinder = find.byType(Container);
+
+    await tester.pumpWidget(_makeTestableWidget(const TopRatedTvseriesPage()));
+
+    expect(containerFinder, findsOneWidget);
+  });
 }

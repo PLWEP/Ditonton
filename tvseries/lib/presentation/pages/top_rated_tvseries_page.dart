@@ -44,15 +44,11 @@ class TopRatedTvseriesPageState extends State<TopRatedTvseriesPage> {
                 itemCount: result.length,
               );
             } else if (state is ErrorData) {
-              return Expanded(
-                child: Center(
-                  child: Text(state.message),
-                ),
+              return Center(
+                child: Text(state.message),
               );
             } else {
-              return Expanded(
-                child: Container(),
-              );
+              return Container();
             }
           },
         ),

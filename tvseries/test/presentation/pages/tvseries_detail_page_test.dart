@@ -1,109 +1,231 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tvseries/presentation/bloc/tvseries_bloc.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:tvseries/presentation/pages/tvseries_detail_page.dart';
+
+import '../../dummy_data/dummy_objects.dart';
 
 class MockTvseriesDetailBloc
     extends MockBloc<TvseriesEvent, TvseriesDetailState>
     implements TvseriesDetailBloc {}
 
-class TvseriesDetailStateFake extends Fake implements TvseriesDetailState {}
+class TvseriesStateFake extends Fake implements TvseriesDetailState {}
 
 class TvseriesEventFake extends Fake implements TvseriesEvent {}
 
+class MockRecommendationTvseriesBloc
+    extends MockBloc<TvseriesEvent, TvseriesState>
+    implements RecommendationTvseriesBloc {}
+
 void main() {
-  // late MockTvseriesDetailBloc mockBloc;
+  late MockTvseriesDetailBloc mockBloc;
+  late MockRecommendationTvseriesBloc mockBlocRecom;
 
-  // setUpAll(() {
-  //   registerFallbackValue(TvseriesEventFake());
-  //   registerFallbackValue(TvseriesDetailStateFake());
+  setUpAll(() {
+    registerFallbackValue(TvseriesEventFake());
+    registerFallbackValue(TvseriesStateFake());
+  });
+
+  setUp(() {
+    mockBloc = MockTvseriesDetailBloc();
+    mockBlocRecom = MockRecommendationTvseriesBloc();
+  });
+
+  Widget _makeTestableWidget(Widget body) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<TvseriesDetailBloc>.value(value: mockBloc),
+        BlocProvider<RecommendationTvseriesBloc>.value(value: mockBlocRecom),
+      ],
+      child: MaterialApp(
+        home: body,
+      ),
+    );
+  }
+
+  testWidgets(' Page should display Progressbar when loading',
+      (WidgetTester tester) async {
+    when(() => mockBloc.state).thenReturn(
+        TvseriesDetailState.initial().copyWith(state: LoadingData()));
+
+    final progressBarFinder = find.byType(CircularProgressIndicator);
+
+    await tester
+        .pumpWidget(_makeTestableWidget(const TvseriesDetailPage(id: 1)));
+
+    expect(progressBarFinder, findsOneWidget);
+  });
+
+  testWidgets(' Page should display DetailContent when loaded',
+      (WidgetTester tester) async {
+    when(() => mockBloc.state).thenReturn(TvseriesDetailState.initial()
+        .copyWith(
+            state: LoadedData(),
+            tvseriesDetail: testTvseriesDetail,
+            isAddedToWatchlist: false,
+            watchlistMessage: ''));
+
+    final detailContentFinder = find.byType(DetailContent);
+
+    await tester
+        .pumpWidget(_makeTestableWidget(const TvseriesDetailPage(id: 1)));
+
+    expect(detailContentFinder, findsOneWidget);
+  });
+
+  testWidgets(
+      'Watchlist button should display add icon when Tvseries is not added to watchlist',
+      (WidgetTester tester) async {
+    when(() => mockBloc.state)
+        .thenReturn(TvseriesDetailState.initial().copyWith(
+      state: EmptyData(),
+      tvseriesDetail: testTvseriesDetail,
+      isAddedToWatchlist: false,
+    ));
+
+    final watchlistButtonIcon = find.byIcon(Icons.add);
+
+    await tester
+        .pumpWidget(_makeTestableWidget(const TvseriesDetailPage(id: 1)));
+
+    expect(watchlistButtonIcon, findsOneWidget);
+  });
+
+  // testWidgets(
+  //     'Watchlist button should display check icon when Tvseries is added to wathclist',
+  //     (WidgetTester tester) async {
+  //   when(() => mockBloc.state)
+  //       .thenReturn(TvseriesDetailState.initial().copyWith(
+  //     state: LoadedData(),
+  //     tvseriesDetail: testTvseriesDetail,
+  //     isAddedToWatchlist: true,
+  //   ));
+
+  //   final watchlistButtonIcon = find.byIcon(Icons.check);
+
+  //   await tester
+  //       .pumpWidget(_makeTestableWidget(const TvseriesDetailPage(id: 1)));
+
+  //   expect(watchlistButtonIcon, findsOneWidget);
   // });
 
-  // setUp(() {
-  //   mockBloc = MockTvseriesDetailBloc();
+  // testWidgets(
+  //     'Watchlist button should display Snackbar when added to watchlist',
+  //     (WidgetTester tester) async {
+  //   whenListen(
+  //       mockBloc,
+  //       Stream.fromIterable([
+  //         TvseriesDetailState.initial().copyWith(
+  //           state: LoadedData(),
+  //           tvseriesDetail: testTvseriesDetail,
+  //           isAddedToWatchlist: false,
+  //         ),
+  //         TvseriesDetailState.initial().copyWith(
+  //           state: LoadedData(),
+  //           tvseriesDetail: testTvseriesDetail,
+  //           isAddedToWatchlist: true,
+  //           watchlistMessage: 'Added to Watchlist',
+  //         ),
+  //       ]),
+  //       initialState: TvseriesDetailState.initial());
+
+  //   final watchlistButton = find.byType(ElevatedButton);
+
+  //   await tester
+  //       .pumpWidget(_makeTestableWidget(const TvseriesDetailPage(id: 1)));
+  //   await tester.pump();
+
+  //   expect(find.byIcon(Icons.add), findsOneWidget);
+
+  //   await tester.tap(watchlistButton);
+  //   await tester.pump();
+
+  //   expect(find.byType(SnackBar), findsOneWidget);
+  //   expect(find.text('Added to Watchlist'), findsOneWidget);
   // });
 
-  // Widget _makeTestableWidget(Widget body) {
-  //   return BlocProvider<TvseriesDetailBloc>.value(
-  //     value: mockBloc,
-  //     child: MaterialApp(
-  //       home: body,
-  //     ),
-  //   );
-  // }
+  // testWidgets(
+  //     'Watchlist button should display Snackbar when removed from watchlist',
+  //     (WidgetTester tester) async {
+  //   whenListen(
+  //       mockBloc,
+  //       Stream.fromIterable([
+  //         TvseriesDetailState.initial().copyWith(
+  //           state: LoadedData(),
+  //           tvseriesDetail: testTvseriesDetail,
+  //           isAddedToWatchlist: true,
+  //         ),
+  //         TvseriesDetailState.initial().copyWith(
+  //           state: LoadedData(),
+  //           tvseriesDetail: testTvseriesDetail,
+  //           isAddedToWatchlist: false,
+  //           watchlistMessage: 'Removed from Watchlist',
+  //         ),
+  //       ]),
+  //       initialState: TvseriesDetailState.initial());
 
-//   testWidgets(
-//       'Watchlist button should display add icon when Tvseries not added to watchlist',
-//       (WidgetTester tester) async {
-//     when(() => mockBloc.state.state).thenReturn(LoadedData());
-//     when(() => mockBloc.state.tvseriesDetail).thenReturn(testTvseriesDetail);
-//     when(() => mockBloc.state.isAddedToWatchlist).thenReturn(false);
-//     when(() => mockBloc.state.watchlistMessage).thenReturn('');
-//     final watchlistButtonIcon = find.byIcon(Icons.add);
+  //   final watchlistButton = find.byType(ElevatedButton);
 
-//     await tester
-//         .pumpWidget(_makeTestableWidget(const TvseriesDetailPage(id: 1399)));
+  //   await tester
+  //       .pumpWidget(_makeTestableWidget(const TvseriesDetailPage(id: 1)));
+  //   await tester.pump();
 
-//     expect(watchlistButtonIcon, findsOneWidget);
-//   });
+  //   expect(find.byIcon(Icons.add), findsOneWidget);
 
-//   testWidgets(
-//       'Watchlist button should dispay check icon when Tvseries is added to wathclist',
-//       (WidgetTester tester) async {
-//     when(() => mockBloc.state.state).thenReturn(LoadedData());
-//     when(() => mockBloc.state.tvseriesDetail).thenReturn(testTvseriesDetail);
-//     when(() => mockBloc.state.isAddedToWatchlist).thenReturn(true);
+  //   await tester.tap(watchlistButton);
+  //   await tester.pump();
 
-//     final watchlistButtonIcon = find.byIcon(Icons.check);
+  //   expect(find.byType(SnackBar), findsOneWidget);
+  //   expect(find.text('Removed from Watchlist'), findsOneWidget);
+  // });
 
-//     await tester
-//         .pumpWidget(_makeTestableWidget(const TvseriesDetailPage(id: 1)));
+  // testWidgets(
+  //     'Watchlist button should display AlertDialog when add to watchlist failed',
+  //     (WidgetTester tester) async {
+  //   whenListen(
+  //       mockBloc,
+  //       Stream.fromIterable([
+  //         TvseriesDetailState.initial().copyWith(
+  //           TvseriesDetailState: LoadedData(),
+  //           tvseriesDetail: testtvseriesDetail,
+  //           tvShowRecommendationState: LoadedData(),
+  //           tvShowRecommendations: [testTvShow],
+  //           isAddedToWatchlist: false,
+  //         ),
+  //         TvseriesDetailState.initial().copyWith(
+  //           TvseriesDetailState: LoadedData(),
+  //           tvseriesDetail: testtvseriesDetail,
+  //           tvShowRecommendationState: LoadedData(),
+  //           tvShowRecommendations: [testTvShow],
+  //           isAddedToWatchlist: false,
+  //           watchlistMessage: 'Failed',
+  //         ),
+  //         TvseriesDetailState.initial().copyWith(
+  //           TvseriesDetailState: LoadedData(),
+  //           tvseriesDetail: testtvseriesDetail,
+  //           tvShowRecommendationState: LoadedData(),
+  //           tvShowRecommendations: [testTvShow],
+  //           isAddedToWatchlist: false,
+  //           watchlistMessage: 'Failed ',
+  //         ),
+  //       ]),
+  //       initialState: TvseriesDetailState.initial());
 
-//     expect(watchlistButtonIcon, findsOneWidget);
-//   });
+  //   final watchlistButton = find.byType(ElevatedButton);
 
-//   testWidgets(
-//       'Watchlist button should display Snackbar when added to watchlist',
-//       (WidgetTester tester) async {
-//     when(() => mockBloc.state.state).thenReturn(LoadedData());
-//     when(() => mockBloc.state.tvseriesDetail).thenReturn(testTvseriesDetail);
-//     when(() => mockBloc.state.isAddedToWatchlist).thenReturn(false);
-//     when(() => mockBloc.state.watchlistMessage)
-//         .thenReturn('Added to Watchlist');
+  //   await tester.pumpWidget(_makeTestableWidget(tvseriesDetailPage(id: 1)));
+  //   await tester.pump();
 
-//     final watchlistButton = find.byType(ElevatedButton);
+  //   expect(find.byIcon(Icons.add), findsOneWidget);
 
-//     await tester
-//         .pumpWidget(_makeTestableWidget(const TvseriesDetailPage(id: 1)));
+  //   await tester.tap(watchlistButton, warnIfMissed: false);
+  //   await tester.pump();
 
-//     expect(find.byIcon(Icons.add), findsOneWidget);
-
-//     await tester.tap(watchlistButton);
-//     await tester.pump();
-
-//     expect(find.byType(SnackBar), findsOneWidget);
-//     expect(find.text('Added to Watchlist'), findsOneWidget);
-//   });
-
-//   testWidgets(
-//       'Watchlist button should display AlertDialog when add to watchlist failed',
-//       (WidgetTester tester) async {
-//     when(() => mockBloc.state.state).thenReturn(LoadedData());
-//     when(() => mockBloc.state.tvseriesDetail).thenReturn(testTvseriesDetail);
-//     when(() => mockBloc.state.isAddedToWatchlist).thenReturn(false);
-//     when(() => mockBloc.state.watchlistMessage).thenReturn('Failed');
-
-//     final watchlistButton = find.byType(ElevatedButton);
-
-//     await tester
-//         .pumpWidget(_makeTestableWidget(const TvseriesDetailPage(id: 1)));
-
-//     expect(find.byIcon(Icons.add), findsOneWidget);
-
-//     await tester.tap(watchlistButton);
-//     await tester.pump();
-
-//     expect(find.byType(AlertDialog), findsOneWidget);
-//     expect(find.text('Failed'), findsOneWidget);
-//   });
+  //   expect(find.byType(AlertDialog), findsOneWidget);
+  //   expect(find.text('Failed'), findsOneWidget);
+  // });
 }
