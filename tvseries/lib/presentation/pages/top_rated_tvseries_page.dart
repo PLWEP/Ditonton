@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tvseries/bloc/tvseries_bloc.dart';
+import 'package:tvseries/presentation/bloc/tvseries_bloc.dart';
 import 'package:tvseries/presentation/widgets/tvseries_card_list.dart';
 import 'package:flutter/material.dart';
 

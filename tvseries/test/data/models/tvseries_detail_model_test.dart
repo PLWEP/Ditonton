@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:tvseries/data/models/tvseries_response.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tvseries/data/models/tvseries_detail_model.dart';
 
 import '../../dummy_data/dummy_objects.dart';
 import '../../json_reader.dart';
@@ -11,11 +11,11 @@ void main() {
     test('should return a valid model from JSON', () async {
       // arrange
       final Map<String, dynamic> jsonMap =
-          json.decode(readJson('dummy_data/now_air.json'));
+          json.decode(readJson('dummy_data/tvseries_detail.json'));
       // act
-      final result = TvseriesResponse.fromJson(jsonMap);
+      final result = TvseriesDetailResponse.fromJson(jsonMap);
       // assert
-      expect(result, testTvseriesResponseModel);
+      expect(result, testTvseriesDetailResponse);
     });
   });
 
@@ -24,10 +24,10 @@ void main() {
       // arrange
 
       // act
-      final result = testTvseriesResponseModel.toJson();
+      final result = testTvseriesDetailResponse.toJson();
 
       // assert
-      expect(result, testTvseriesResponseModelMap);
+      expect(result, testTvseriesDetailResponseMap);
     });
   });
 }

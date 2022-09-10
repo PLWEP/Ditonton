@@ -24,18 +24,6 @@
     {
         "id": 10765,
         "name": "Sci-Fi & Fantasy"
-    },
-    {
-        "id": 18,
-        "name": "Drama"
-    },
-    {
-        "id": 10759,
-        "name": "Action & Adventure"
-    },
-    {
-        "id": 9648,
-        "name": "Mystery"
     }
     ],
     "homepage": "http://www.hbo.com/game-of-thrones",
@@ -58,7 +46,7 @@
     "vote_count": 106
     },
     "name": "Game of Thrones",
-    "next_episode_to_air": null,
+    "next_episode_to_air": false,
     "networks": [
     {
         "name": "HBO",
@@ -205,7 +193,7 @@
     ],
     "status": "Ended",
     "tagline": "Winter Is Coming",
-    "type": "Scripted",
+    "type": "script",
     "vote_average": 8.3,
     "vote_count": 11504
 }

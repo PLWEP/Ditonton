@@ -4,9 +4,9 @@ import 'package:core/styles/text_style.dart';
 import 'package:core/utils/constants.dart';
 import 'package:core/utils/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tvseries/bloc/tvseries_bloc.dart';
 import 'package:tvseries/domain/entities/tvseries.dart';
 import 'package:flutter/material.dart';
+import 'package:tvseries/presentation/bloc/tvseries_bloc.dart';
 
 class HomeTvseriesPage extends StatefulWidget {
   static const routeName = '/home_tvseries';

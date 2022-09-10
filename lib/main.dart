@@ -21,10 +21,10 @@ import 'package:provider/provider.dart';
 import 'package:ditonton/injection.dart' as di;
 import 'package:search/presentation/pages/search_page_movie.dart';
 import 'package:search/presentation/pages/search_page_tvseries.dart';
-import 'package:search/bloc/movie/search_movie_bloc.dart';
-import 'package:search/bloc/tvseries/search_tvseries_bloc.dart';
+import 'package:search/presentation/bloc/movie/search_movie_bloc.dart';
+import 'package:search/presentation/bloc/tvseries/search_tvseries_bloc.dart';
 import 'package:movie/bloc/movie_bloc.dart';
-import 'package:tvseries/bloc/tvseries_bloc.dart';
+import 'package:tvseries/presentation/bloc/tvseries_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

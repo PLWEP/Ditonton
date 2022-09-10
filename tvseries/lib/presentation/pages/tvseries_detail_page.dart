@@ -4,10 +4,10 @@ import 'package:core/styles/text_style.dart';
 import 'package:core/utils/routes.dart';
 import 'package:core/domain/entities/genre.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tvseries/bloc/tvseries_bloc.dart';
 import 'package:tvseries/domain/entities/tvseries_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:tvseries/presentation/bloc/tvseries_bloc.dart';
 
 class TvseriesDetailPage extends StatefulWidget {
   static const routeName = '/detail_tvseries';
