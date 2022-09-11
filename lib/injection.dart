@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:core/utils/network_info.dart';
 import 'package:core/data/datasources/db/database_helper.dart';

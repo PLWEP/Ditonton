@@ -39,12 +39,9 @@ void main() async {
   );
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
-  // Set SecurityContext to not trust the OS's certificates
   SecurityContext(withTrustedRoots: false);
-  // Load certificate file
-  ByteData data = await rootBundle.load('certificates/_.themoviedb.org.crt');
+  ByteData data = await rootBundle.load('certificates/_.themoviedb.org.pem');
   SecurityContext context = SecurityContext.defaultContext;
-  // Trust the certificate
   context.setTrustedCertificatesBytes(data.buffer.asUint8List());
 
   di.init();
