@@ -6,7 +6,7 @@ import 'package:core/utils/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tvseries/domain/entities/tvseries.dart';
 import 'package:flutter/material.dart';
-import 'package:tvseries/presentation/bloc/tvseries_bloc.dart';
+import 'package:tvseries/presentation/bloc/tvseries/tvseries_bloc.dart';
 
 class HomeTvseriesPage extends StatefulWidget {
   static const routeName = '/home_tvseries';
@@ -58,7 +58,7 @@ class HomeTvseriesPageState extends State<HomeTvseriesPage> {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is TvseriesHasData) {
+                  } else if (state is LoadedData) {
                     final result = state.result;
                     return TvseriesList(result);
                   } else {
@@ -76,7 +76,7 @@ class HomeTvseriesPageState extends State<HomeTvseriesPage> {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is TvseriesHasData) {
+                  } else if (state is LoadedData) {
                     final result = state.result;
                     return TvseriesList(result);
                   } else {
@@ -95,7 +95,7 @@ class HomeTvseriesPageState extends State<HomeTvseriesPage> {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is TvseriesHasData) {
+                  } else if (state is LoadedData) {
                     final result = state.result;
                     return TvseriesList(result);
                   } else {

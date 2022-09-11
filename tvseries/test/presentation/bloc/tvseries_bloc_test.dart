@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tvseries/domain/usecases/get_now_playing_tvseries.dart';
-import 'package:tvseries/presentation/bloc/tvseries_bloc.dart';
+import 'package:tvseries/presentation/bloc/tvseries/tvseries_bloc.dart';
 
 import '../../dummy_data/dummy_objects.dart';
 import 'tvseries_bloc_test.mocks.dart';
@@ -36,7 +36,7 @@ void main() {
     act: (bloc) => bloc.add(const FetchTvseriesData()),
     expect: () => [
       LoadingData(),
-      TvseriesHasData(testTvseriesList),
+      LoadedData(testTvseriesList),
     ],
     verify: (bloc) {
       verify(mockGetNowPlayingTvseries.execute());

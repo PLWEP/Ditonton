@@ -3,11 +3,13 @@ import 'package:core/styles/colors.dart';
 import 'package:core/styles/text_style.dart';
 import 'package:core/utils/routes.dart';
 import 'package:core/domain/entities/genre.dart';
+import 'package:core/utils/state_enum.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tvseries/domain/entities/tvseries_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:tvseries/presentation/bloc/tvseries_bloc.dart';
+import 'package:tvseries/presentation/bloc/tvseries/tvseries_bloc.dart';
+import 'package:tvseries/presentation/bloc/tvseriesdetail/tvseriesdetail_bloc.dart';
 
 class TvseriesDetailPage extends StatefulWidget {
   static const routeName = '/detail_tvseries';
@@ -29,7 +31,7 @@ class TvseriesDetailPageState extends State<TvseriesDetailPage> {
           .add(FetchTvseriesDataWithId(widget.id));
       context
           .read<TvseriesDetailBloc>()
-          .add(FetchTvseriesDataWithId(widget.id));
+          .add(FetchTvseriesDetailDataWithId(widget.id));
       context.read<TvseriesDetailBloc>().add(LoadWatchlistStatus(widget.id));
     });
   }
@@ -57,15 +59,17 @@ class TvseriesDetailPageState extends State<TvseriesDetailPage> {
                 });
           }
         },
-        listenWhen: (previousState, currentState) =>
-            previousState.watchlistMessage != currentState.watchlistMessage &&
-            currentState.watchlistMessage != '',
+        listenWhen: (previousState, currentState) {
+          return previousState.watchlistMessage !=
+                  currentState.watchlistMessage &&
+              currentState.watchlistMessage != '';
+        },
         builder: (context, state) {
-          if (state.state == LoadingData()) {
+          if (state.state == RequestState.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state.state == LoadedData()) {
+          } else if (state.state == RequestState.loaded) {
             final tvseries = state.tvseriesDetail!;
             final status = state.isAddedToWatchlist;
             return SafeArea(
@@ -197,7 +201,7 @@ class DetailContent extends StatelessWidget {
                                   return const Center(
                                     child: CircularProgressIndicator(),
                                   );
-                                } else if (state is TvseriesHasData) {
+                                } else if (state is LoadedData) {
                                   final result = state.result;
                                   return SizedBox(
                                     height: 150,

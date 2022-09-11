@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:core/utils/failure.dart';
+import 'package:core/utils/state_enum.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -8,7 +9,7 @@ import 'package:tvseries/domain/usecases/get_tvseries_detail.dart';
 import 'package:tvseries/domain/usecases/get_watchlist_status_tvseries.dart';
 import 'package:tvseries/domain/usecases/remove_watchlist_tvseries.dart';
 import 'package:tvseries/domain/usecases/save_watchlist_tvseries.dart';
-import 'package:tvseries/presentation/bloc/tvseries_bloc.dart';
+import 'package:tvseries/presentation/bloc/tvseriesdetail/tvseriesdetail_bloc.dart';
 
 import '../../dummy_data/dummy_objects.dart';
 import 'tvseries_detail_bloc_test.mocks.dart';
@@ -43,22 +44,22 @@ void main() {
 
   group('Get Tvseries Detail', () {
     test('initial state should be empty', () {
-      expect(detailBloc.state.state, EmptyData());
+      expect(detailBloc.state.state, RequestState.empty);
     });
 
     blocTest<TvseriesDetailBloc, TvseriesDetailState>(
-      'Should emit [Loading, HasData] when data is gotten successfully',
+      'Should emit [Loading, Loaded] when data is gotten successfully',
       build: () {
         when(mockGetTvseriesDetail.execute(tId))
             .thenAnswer((_) async => const Right(testTvseriesDetail));
         return detailBloc;
       },
-      act: (bloc) => bloc.add(const FetchTvseriesDataWithId(tId)),
+      act: (bloc) => bloc.add(const FetchTvseriesDetailDataWithId(tId)),
       expect: () => [
-        detailBloc.state.copyWith(state: LoadingData()),
-        detailBloc.state.copyWith(
+        TvseriesDetailState.initial().copyWith(state: RequestState.loading),
+        TvseriesDetailState.initial().copyWith(
+          state: RequestState.loaded,
           tvseriesDetail: testTvseriesDetail,
-          state: LoadedData(),
         ),
       ],
       verify: (_) {
@@ -73,11 +74,11 @@ void main() {
             (_) async => const Left(ServerFailure('Server Failure')));
         return detailBloc;
       },
-      act: (bloc) => bloc.add(const FetchTvseriesDataWithId(tId)),
+      act: (bloc) => bloc.add(const FetchTvseriesDetailDataWithId(tId)),
       expect: () => [
-        detailBloc.state.copyWith(state: LoadingData()),
-        detailBloc.state.copyWith(
-          state: const ErrorData('Server Failure'),
+        TvseriesDetailState.initial().copyWith(state: RequestState.loading),
+        TvseriesDetailState.initial().copyWith(
+          state: RequestState.error,
         ),
       ],
       verify: (_) {
@@ -95,7 +96,8 @@ void main() {
       },
       act: (bloc) => bloc.add(const LoadWatchlistStatus(tId)),
       expect: () => [
-        detailBloc.state.copyWith(
+        TvseriesDetailState.initial().copyWith(
+          tvseriesDetail: testTvseriesDetail,
           isAddedToWatchlist: true,
         ),
       ],
@@ -115,10 +117,14 @@ void main() {
       },
       act: (bloc) => bloc.add(const AddWatchlist(testTvseriesDetail)),
       expect: () => [
-        detailBloc.state
-            .copyWith(watchlistMessage: 'Success', isAddedToWatchlist: false),
-        detailBloc.state
-            .copyWith(watchlistMessage: 'Success', isAddedToWatchlist: true),
+        TvseriesDetailState.initial().copyWith(
+            tvseriesDetail: testTvseriesDetail,
+            isAddedToWatchlist: false,
+            watchlistMessage: 'Success'),
+        TvseriesDetailState.initial().copyWith(
+            tvseriesDetail: testTvseriesDetail,
+            isAddedToWatchlist: true,
+            watchlistMessage: 'Success'),
       ],
       verify: (_) {
         verify(mockSaveWatchlist.execute(testTvseriesDetail));
@@ -136,32 +142,13 @@ void main() {
       },
       act: (bloc) => bloc.add(const RemoveWatchlist(testTvseriesDetail)),
       expect: () => [
-        detailBloc.state
-            .copyWith(watchlistMessage: 'Removed', isAddedToWatchlist: false),
+        TvseriesDetailState.initial().copyWith(
+            tvseriesDetail: testTvseriesDetail,
+            isAddedToWatchlist: false,
+            watchlistMessage: 'Removed'),
       ],
       verify: (_) {
         verify(mockRemoveWatchlist.execute(testTvseriesDetail));
-      },
-    );
-
-    blocTest<TvseriesDetailBloc, TvseriesDetailState>(
-      'should update watchlist status when add watchlist success',
-      build: () {
-        when(mockSaveWatchlist.execute(testTvseriesDetail))
-            .thenAnswer((_) async => const Right('added to watchlist'));
-        when(mockGetWatchlistStatus.execute(testTvseriesDetail.id))
-            .thenAnswer((_) async => true);
-        return detailBloc;
-      },
-      act: (bloc) => bloc.add(const AddWatchlist(testTvseriesDetail)),
-      expect: () => [
-        detailBloc.state.copyWith(
-            watchlistMessage: 'added to watchlist', isAddedToWatchlist: false),
-        detailBloc.state.copyWith(
-            watchlistMessage: 'added to watchlist', isAddedToWatchlist: true),
-      ],
-      verify: (_) {
-        verify(mockSaveWatchlist.execute(testTvseriesDetail));
       },
     );
 
@@ -176,8 +163,10 @@ void main() {
       },
       act: (bloc) => bloc.add(const AddWatchlist(testTvseriesDetail)),
       expect: () => [
-        detailBloc.state.copyWith(
-            watchlistMessage: 'Server Failure', isAddedToWatchlist: false),
+        TvseriesDetailState.initial().copyWith(
+            tvseriesDetail: testTvseriesDetail,
+            isAddedToWatchlist: false,
+            watchlistMessage: 'Server Failure'),
       ],
       verify: (_) {
         verify(mockSaveWatchlist.execute(testTvseriesDetail));
@@ -195,8 +184,10 @@ void main() {
       },
       act: (bloc) => bloc.add(const RemoveWatchlist(testTvseriesDetail)),
       expect: () => [
-        detailBloc.state.copyWith(
-            watchlistMessage: 'Server Failure', isAddedToWatchlist: false),
+        TvseriesDetailState.initial().copyWith(
+            tvseriesDetail: testTvseriesDetail,
+            isAddedToWatchlist: false,
+            watchlistMessage: 'Server Failure'),
       ],
       verify: (_) {
         verify(mockRemoveWatchlist.execute(testTvseriesDetail));

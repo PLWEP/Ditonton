@@ -1,16 +1,11 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:tvseries/domain/entities/tvseries_detail.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tvseries/domain/entities/tvseries.dart';
 import 'package:tvseries/domain/usecases/get_now_playing_tvseries.dart';
 import 'package:tvseries/domain/usecases/get_popular_tvseries.dart';
 import 'package:tvseries/domain/usecases/get_top_rated_tvseries.dart';
-import 'package:tvseries/domain/usecases/get_tvseries_detail.dart';
 import 'package:tvseries/domain/usecases/get_tvseries_recommendations.dart';
-import 'package:tvseries/domain/usecases/get_watchlist_status_tvseries.dart';
 import 'package:tvseries/domain/usecases/get_watchlist_tvseries.dart';
-import 'package:tvseries/domain/usecases/remove_watchlist_tvseries.dart';
-import 'package:tvseries/domain/usecases/save_watchlist_tvseries.dart';
 
 part 'tvseries_event.dart';
 part 'tvseries_state.dart';
@@ -28,7 +23,7 @@ class TvseriesBloc extends Bloc<TvseriesEvent, TvseriesState> {
           emit(ErrorData(failure.message));
         },
         (data) {
-          emit(TvseriesHasData(data));
+          emit(LoadedData(data));
         },
       );
     });
@@ -47,7 +42,7 @@ class PopularTvseriesBloc extends Bloc<TvseriesEvent, TvseriesState> {
           emit(ErrorData(failure.message));
         },
         (data) {
-          emit(TvseriesHasData(data));
+          emit(LoadedData(data));
         },
       );
     });
@@ -66,7 +61,7 @@ class TopRatedTvseriesBloc extends Bloc<TvseriesEvent, TvseriesState> {
           emit(ErrorData(failure.message));
         },
         (data) {
-          emit(TvseriesHasData(data));
+          emit(LoadedData(data));
         },
       );
     });
@@ -85,7 +80,7 @@ class WatchlistTvseriesBloc extends Bloc<TvseriesEvent, TvseriesState> {
           emit(ErrorData(failure.message));
         },
         (data) {
-          emit(TvseriesHasData(data));
+          emit(LoadedData(data));
         },
       );
     });
@@ -108,69 +103,9 @@ class RecommendationTvseriesBloc extends Bloc<TvseriesEvent, TvseriesState> {
           emit(ErrorData(failure.message));
         },
         (data) {
-          emit(TvseriesHasData(data));
+          emit(LoadedData(data));
         },
       );
-    });
-  }
-}
-
-class TvseriesDetailBloc extends Bloc<TvseriesEvent, TvseriesDetailState> {
-  final GetTvseriesDetail getTvseriesDetail;
-  final GetWatchListStatusTvseries getWatchListStatus;
-  final SaveWatchlistTvseries saveWatchlist;
-  final RemoveWatchlistTvseries removeWatchlist;
-
-  static const watchlistAddSuccessMessage = 'Added to Watchlist';
-  static const watchlistRemoveSuccessMessage = 'Removed from Watchlist';
-
-  TvseriesDetailBloc({
-    required this.getTvseriesDetail,
-    required this.getWatchListStatus,
-    required this.saveWatchlist,
-    required this.removeWatchlist,
-  }) : super(TvseriesDetailState.initial()) {
-    on<FetchTvseriesDataWithId>((event, emit) async {
-      emit(state.copyWith(state: LoadingData()));
-      final detailResult = await getTvseriesDetail.execute(event.id);
-
-      detailResult.fold(
-        (failure) async {
-          emit(state.copyWith(state: ErrorData(failure.message)));
-        },
-        (tvseries) async {
-          emit(state.copyWith(
-            state: LoadedData(),
-            tvseriesDetail: tvseries,
-          ));
-        },
-      );
-    });
-    on<AddWatchlist>((event, emit) async {
-      final result = await saveWatchlist.execute(event.tvseriesDetail);
-
-      result.fold((failure) {
-        emit(state.copyWith(watchlistMessage: failure.message));
-      }, (successMessage) {
-        emit(state.copyWith(watchlistMessage: successMessage));
-      });
-
-      add(LoadWatchlistStatus(event.tvseriesDetail.id));
-    });
-    on<RemoveWatchlist>((event, emit) async {
-      final result = await removeWatchlist.execute(event.tvseriesDetail);
-
-      result.fold((failure) {
-        emit(state.copyWith(watchlistMessage: failure.message));
-      }, (successMessage) {
-        emit(state.copyWith(watchlistMessage: successMessage));
-      });
-
-      add(LoadWatchlistStatus(event.tvseriesDetail.id));
-    });
-    on<LoadWatchlistStatus>((event, emit) async {
-      final result = await getWatchListStatus.execute(event.id);
-      emit(state.copyWith(isAddedToWatchlist: result));
     });
   }
 }

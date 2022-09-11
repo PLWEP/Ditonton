@@ -1,25 +1,18 @@
-part of 'tvseries_bloc.dart';
+part of 'tvseriesdetail_bloc.dart';
 
-abstract class TvseriesEvent extends Equatable {
-  const TvseriesEvent();
+abstract class TvseriesDetailEvent extends Equatable {
+  const TvseriesDetailEvent();
 }
 
-class FetchTvseriesData extends TvseriesEvent {
-  const FetchTvseriesData();
-
-  @override
-  List<Object> get props => [];
-}
-
-class FetchTvseriesDataWithId extends TvseriesEvent {
+class FetchTvseriesDetailDataWithId extends TvseriesDetailEvent {
   final int id;
-  const FetchTvseriesDataWithId(this.id);
+  const FetchTvseriesDetailDataWithId(this.id);
 
   @override
   List<Object> get props => [id];
 }
 
-class AddWatchlist extends TvseriesEvent {
+class AddWatchlist extends TvseriesDetailEvent {
   final TvseriesDetail tvseriesDetail;
 
   const AddWatchlist(this.tvseriesDetail);
@@ -28,7 +21,7 @@ class AddWatchlist extends TvseriesEvent {
   List<Object> get props => [tvseriesDetail];
 }
 
-class RemoveWatchlist extends TvseriesEvent {
+class RemoveWatchlist extends TvseriesDetailEvent {
   final TvseriesDetail tvseriesDetail;
 
   const RemoveWatchlist(this.tvseriesDetail);
@@ -37,7 +30,7 @@ class RemoveWatchlist extends TvseriesEvent {
   List<Object> get props => [tvseriesDetail];
 }
 
-class LoadWatchlistStatus extends TvseriesEvent {
+class LoadWatchlistStatus extends TvseriesDetailEvent {
   final int id;
   const LoadWatchlistStatus(this.id);
 

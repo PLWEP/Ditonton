@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tvseries/presentation/bloc/tvseries_bloc.dart';
+import 'package:tvseries/presentation/bloc/tvseries/tvseries_bloc.dart';
 import 'package:tvseries/presentation/widgets/tvseries_card_list.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +34,7 @@ class TopRatedTvseriesPageState extends State<TopRatedTvseriesPage> {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is TvseriesHasData) {
+            } else if (state is LoadedData) {
               final result = state.result;
               return ListView.builder(
                 itemBuilder: (context, index) {

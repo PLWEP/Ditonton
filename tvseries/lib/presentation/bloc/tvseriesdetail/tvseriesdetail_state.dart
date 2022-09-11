@@ -1,41 +1,10 @@
-part of 'tvseries_bloc.dart';
-
-abstract class TvseriesState extends Equatable {
-  const TvseriesState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class EmptyData extends TvseriesState {}
-
-class LoadingData extends TvseriesState {}
-
-class LoadedData extends TvseriesState {}
-
-class ErrorData extends TvseriesState {
-  final String message;
-
-  const ErrorData(this.message);
-
-  @override
-  List<Object> get props => [message];
-}
-
-class TvseriesHasData extends TvseriesState {
-  final List<Tvseries> result;
-
-  const TvseriesHasData(this.result);
-
-  @override
-  List<Object> get props => [result];
-}
+part of 'tvseriesdetail_bloc.dart';
 
 class TvseriesDetailState extends Equatable {
   final TvseriesDetail? tvseriesDetail;
   final String watchlistMessage;
   final bool isAddedToWatchlist;
-  final TvseriesState state;
+  final RequestState state;
 
   const TvseriesDetailState({
     required this.tvseriesDetail,
@@ -48,7 +17,7 @@ class TvseriesDetailState extends Equatable {
     TvseriesDetail? tvseriesDetail,
     String? watchlistMessage,
     bool? isAddedToWatchlist,
-    TvseriesState? state,
+    RequestState? state,
   }) {
     return TvseriesDetailState(
       tvseriesDetail: tvseriesDetail ?? this.tvseriesDetail,
@@ -59,11 +28,11 @@ class TvseriesDetailState extends Equatable {
   }
 
   factory TvseriesDetailState.initial() {
-    return TvseriesDetailState(
+    return const TvseriesDetailState(
       tvseriesDetail: null,
       watchlistMessage: '',
       isAddedToWatchlist: false,
-      state: EmptyData(),
+      state: RequestState.empty,
     );
   }
 
