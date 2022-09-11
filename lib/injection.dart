@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:core/utils/network_info.dart';
 import 'package:core/data/datasources/db/database_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
-import 'package:movie/bloc/movie_bloc.dart';
+import 'package:movie/presentation/bloc/movie/movie_bloc.dart';
+import 'package:movie/presentation/bloc/moviedetail/moviedetail_bloc.dart';
 import 'package:movie/data/datasources/movie_local_data_source.dart';
 import 'package:movie/data/datasources/movie_remote_data_source.dart';
 import 'package:movie/data/repositories/movie_repository_impl.dart';

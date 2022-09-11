@@ -32,6 +32,7 @@ dependencies:
     path: ../tvseries
 
 dev_dependencies:
+  mocktail: ^0.3.0
   test_cov_console: ^0.2.2
   mockito: ^5.0.8
   bloc_test: ^9.0.0

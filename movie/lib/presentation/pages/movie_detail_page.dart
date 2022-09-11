@@ -3,11 +3,13 @@ import 'package:core/styles/colors.dart';
 import 'package:core/styles/text_style.dart';
 import 'package:core/domain/entities/genre.dart';
 import 'package:core/utils/routes.dart';
+import 'package:core/utils/state_enum.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie/bloc/movie_bloc.dart';
 import 'package:movie/domain/entities/movie_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:movie/presentation/bloc/movie/movie_bloc.dart';
+import 'package:movie/presentation/bloc/moviedetail/moviedetail_bloc.dart';
 
 class MovieDetailPage extends StatefulWidget {
   static const routeName = '/detail_movie';
@@ -27,7 +29,9 @@ class MovieDetailPageState extends State<MovieDetailPage> {
       context
           .read<RecommendationMoviesBloc>()
           .add(FetchMovieDataWithId(widget.id));
-      context.read<MovieDetailBloc>().add(FetchMovieDataWithId(widget.id));
+      context
+          .read<MovieDetailBloc>()
+          .add(FetchMovieDetailDataWithId(widget.id));
       context.read<MovieDetailBloc>().add(LoadWatchlistStatus(widget.id));
     });
   }
@@ -59,11 +63,11 @@ class MovieDetailPageState extends State<MovieDetailPage> {
             previousState.watchlistMessage != currentState.watchlistMessage &&
             currentState.watchlistMessage != '',
         builder: (context, state) {
-          if (state.state == LoadingData()) {
+          if (state.state == RequestState.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state.state == LoadedData()) {
+          } else if (state.state == RequestState.loaded) {
             final movie = state.movieDetail!;
             final status = state.isAddedToWatchlist;
             return SafeArea(
@@ -189,7 +193,7 @@ class DetailContent extends StatelessWidget {
                                   return const Center(
                                     child: CircularProgressIndicator(),
                                   );
-                                } else if (state is MovieHasData) {
+                                } else if (state is LoadedData) {
                                   final result = state.result;
                                   return SizedBox(
                                     height: 150,

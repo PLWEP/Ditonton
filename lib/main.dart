@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:core/styles/colors.dart';
 import 'package:core/styles/text_style.dart';
 import 'package:core/utils/utils.dart';
 import 'package:about/about.dart';
 import 'package:core/utils/routes.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/services.dart';
 import 'package:movie/presentation/pages/movie_detail_page.dart';
 import 'package:movie/presentation/pages/home_movie_page.dart';
 import 'package:movie/presentation/pages/popular_movies_page.dart';
@@ -24,7 +27,8 @@ import 'package:search/presentation/pages/search_page_movie.dart';
 import 'package:search/presentation/pages/search_page_tvseries.dart';
 import 'package:search/presentation/bloc/movie/search_movie_bloc.dart';
 import 'package:search/presentation/bloc/tvseries/search_tvseries_bloc.dart';
-import 'package:movie/bloc/movie_bloc.dart';
+import 'package:movie/presentation/bloc/movie/movie_bloc.dart';
+import 'package:movie/presentation/bloc/moviedetail/moviedetail_bloc.dart';
 import 'package:tvseries/presentation/bloc/tvseries/tvseries_bloc.dart';
 import 'package:tvseries/presentation/bloc/tvseriesdetail/tvseriesdetail_bloc.dart';
 
@@ -34,6 +38,14 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+  // Set SecurityContext to not trust the OS's certificates
+  SecurityContext(withTrustedRoots: false);
+  // Load certificate file
+  ByteData data = await rootBundle.load('certificates/_.themoviedb.org.crt');
+  SecurityContext context = SecurityContext.defaultContext;
+  // Trust the certificate
+  context.setTrustedCertificatesBytes(data.buffer.asUint8List());
 
   di.init();
   runApp(MyApp());

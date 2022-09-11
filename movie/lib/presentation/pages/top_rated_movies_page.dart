@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie/bloc/movie_bloc.dart';
+import 'package:movie/presentation/bloc/movie/movie_bloc.dart';
 import 'package:movie/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +34,7 @@ class TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is MovieHasData) {
+            } else if (state is LoadedData) {
               final result = state.result;
               return ListView.builder(
                 itemBuilder: (context, index) {
@@ -44,15 +44,11 @@ class TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
                 itemCount: result.length,
               );
             } else if (state is ErrorData) {
-              return Expanded(
-                child: Center(
-                  child: Text(state.message),
-                ),
+              return Center(
+                child: Text(state.message),
               );
             } else {
-              return Expanded(
-                child: Container(),
-              );
+              return Container();
             }
           },
         ),

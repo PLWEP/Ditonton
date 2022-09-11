@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:movie/data/models/movie_response.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:movie/data/models/movie_detail_model.dart';
 
 import '../../dummy_data/dummy_objects.dart';
 import '../../json_reader.dart';
@@ -11,11 +11,11 @@ void main() {
     test('should return a valid model from JSON', () async {
       // arrange
       final Map<String, dynamic> jsonMap =
-          json.decode(readJson('dummy_data/now_playing.json'));
+          json.decode(readJson('dummy_data/movie_detail.json'));
       // act
-      final result = MovieResponse.fromJson(jsonMap);
+      final result = MovieDetailResponse.fromJson(jsonMap);
       // assert
-      expect(result, testMovieResponseModel);
+      expect(result, testMovieDetailResponse);
     });
   });
 
@@ -24,10 +24,10 @@ void main() {
       // arrange
 
       // act
-      final result = testMovieResponseModel.toJson();
-      // assert
+      final result = testMovieDetailResponse.toJson();
 
-      expect(result, testMovieResponseModelMap);
+      // assert
+      expect(result, testMovieDetailResponseMap);
     });
   });
 }

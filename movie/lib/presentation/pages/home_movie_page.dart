@@ -3,10 +3,10 @@ import 'package:core/styles/text_style.dart';
 import 'package:core/utils/constants.dart';
 import 'package:core/presentation/widgets/drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie/bloc/movie_bloc.dart';
 import 'package:movie/domain/entities/movie.dart';
 import 'package:core/utils/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:movie/presentation/bloc/movie/movie_bloc.dart';
 
 class HomeMoviePage extends StatefulWidget {
   static const routeName = '/home_movie';
@@ -58,7 +58,7 @@ class HomeMoviePageState extends State<HomeMoviePage> {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is MovieHasData) {
+                  } else if (state is LoadedData) {
                     final result = state.result;
                     return MovieList(result);
                   } else {
@@ -76,7 +76,7 @@ class HomeMoviePageState extends State<HomeMoviePage> {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is MovieHasData) {
+                  } else if (state is LoadedData) {
                     final result = state.result;
                     return MovieList(result);
                   } else {
@@ -94,7 +94,7 @@ class HomeMoviePageState extends State<HomeMoviePage> {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is MovieHasData) {
+                  } else if (state is LoadedData) {
                     final result = state.result;
                     return MovieList(result);
                   } else {
