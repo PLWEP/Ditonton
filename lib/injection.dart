@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:core/utils/sslpinning.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:core/utils/network_info.dart';
 import 'package:core/data/datasources/db/database_helper.dart';
-import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
 import 'package:movie/presentation/bloc/movie/movie_bloc.dart';
 import 'package:movie/presentation/bloc/moviedetail/moviedetail_bloc.dart';

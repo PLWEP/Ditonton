@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:core/styles/colors.dart';
 import 'package:core/styles/text_style.dart';
 import 'package:core/utils/sslpinning.dart';
@@ -7,7 +5,6 @@ import 'package:core/utils/utils.dart';
 import 'package:about/about.dart';
 import 'package:core/utils/routes.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/services.dart';
 import 'package:movie/presentation/pages/movie_detail_page.dart';
 import 'package:movie/presentation/pages/home_movie_page.dart';
 import 'package:movie/presentation/pages/popular_movies_page.dart';

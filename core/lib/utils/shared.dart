@@ -10,7 +10,7 @@ class Shared {
     SecurityContext context = SecurityContext(withTrustedRoots: false);
     try {
       List<int> bytes = [];
-      bytes = (await rootBundle.load('certificates/_.themoviedb.org.pem'))
+      bytes = (await rootBundle.load('certificates/certi.pem'))
           .buffer
           .asUint8List();
       context.setTrustedCertificatesBytes(bytes);
