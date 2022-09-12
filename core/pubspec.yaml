@@ -23,6 +23,9 @@ dependencies:
   google_fonts: ^3.0.1
   http: ^0.13.5
   flutter_bloc: ^8.1.1
+  
+  firebase_core: ^1.21.1
+  firebase_crashlytics: ^2.8.9
   flutter:
     sdk: flutter
 
