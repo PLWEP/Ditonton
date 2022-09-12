@@ -1,12 +1,11 @@
-import 'package:core/presentation/widgets/drawer.dart';
-import 'package:core/utils/state_enum.dart';
 import 'package:core/utils/utils.dart';
-import 'package:movie/presentation/provider/watchlist_movie_notifier.dart';
-import 'package:tvseries/presentation/provider/watchlist_tvseries_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie/presentation/bloc/movie/movie_bloc.dart' as movieblloc;
+import 'package:tvseries/presentation/bloc/tvseries/tvseries_bloc.dart'
+    as tvseriesbloc;
 import 'package:movie/presentation/widgets/movie_card_list.dart';
 import 'package:tvseries/presentation/widgets/tvseries_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Watchlist extends StatefulWidget {
   static const routeName = '/watchlist';
@@ -18,14 +17,20 @@ class Watchlist extends StatefulWidget {
 }
 
 class WatchlistState extends State<Watchlist> with RouteAware {
+  final List<Widget> watchList = [
+    const _WatchlistMovies(),
+    const _WatchlistTvseries()
+  ];
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-      Provider.of<WatchlistMovieNotifier>(context, listen: false)
-          .fetchWatchlistMovies();
-      Provider.of<WatchlistTvseriesNotifier>(context, listen: false)
-          .fetchWatchlistTvseries();
+      context
+          .read<movieblloc.WatchlistMovieBloc>()
+          .add(const movieblloc.FetchMoviesData());
+      context
+          .read<tvseriesbloc.WatchlistTvseriesBloc>()
+          .add(const tvseriesbloc.FetchTvseriesData());
     });
   }
 
@@ -37,67 +42,51 @@ class WatchlistState extends State<Watchlist> with RouteAware {
 
   @override
   void didPopNext() {
-    Provider.of<WatchlistMovieNotifier>(context, listen: false)
-        .fetchWatchlistMovies();
-    Provider.of<WatchlistTvseriesNotifier>(context, listen: false)
-        .fetchWatchlistTvseries();
+    context
+        .read<movieblloc.WatchlistMovieBloc>()
+        .add(const movieblloc.FetchMoviesData());
+    context
+        .read<tvseriesbloc.WatchlistTvseriesBloc>()
+        .add(const tvseriesbloc.FetchTvseriesData());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Watchlist'),
-      ),
-      drawer: const NavigationMenu(currentRoute: 'watchlist'),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Flexible(
-              child:
-                  Consumer2<WatchlistMovieNotifier, WatchlistTvseriesNotifier>(
-                builder: (context, movieData, tvseriesData, child) {
-                  if (movieData.watchlistState == RequestState.loading ||
-                      tvseriesData.watchlistState == RequestState.loading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (movieData.watchlistState == RequestState.loaded &&
-                      tvseriesData.watchlistState == RequestState.loaded) {
-                    var counterIndex = 0;
-                    return ListView.builder(
-                      itemBuilder: (context, index) {
-                        if (index < movieData.watchlistMovies.length) {
-                          final movie = movieData.watchlistMovies[index];
-                          return MovieCard(movie);
-                        } else {
-                          final tvseries =
-                              tvseriesData.watchlistTvseries[counterIndex];
-                          counterIndex++;
-                          return TvseriesCard(tvseries);
-                        }
-                      },
-                      itemCount: movieData.watchlistMovies.length +
-                          tvseriesData.watchlistTvseries.length,
-                    );
-                  } else if (movieData.watchlistState == RequestState.empty &&
-                      tvseriesData.watchlistState == RequestState.empty) {
-                    return const Center(
-                      child: Text("Watchlist masih kosong :("),
-                    );
-                  } else {
-                    return Center(
-                      key: const Key('error_message'),
-                      child:
-                          Text("${movieData.message}\n${tvseriesData.message}"),
-                    );
-                  }
-                },
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Watchlist'),
+          bottom: TabBar(
+            padding: const EdgeInsets.fromLTRB(10, 6, 10, 6),
+            indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(30), // Creates border
+                color: Colors.blueGrey[600]),
+            tabs: [
+              Tab(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Icon(Icons.movie),
+                    SizedBox(width: 6),
+                    Text('Movie'),
+                  ],
+                ),
               ),
-            ),
-          ],
+              Tab(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Icon(Icons.tv),
+                    SizedBox(width: 6),
+                    Text('Tvseries'),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
+        body: TabBarView(children: watchList),
       ),
     );
   }
@@ -106,5 +95,74 @@ class WatchlistState extends State<Watchlist> with RouteAware {
   void dispose() {
     routeObserver.unsubscribe(this);
     super.dispose();
+  }
+}
+
+class _WatchlistMovies extends StatelessWidget {
+  const _WatchlistMovies({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: BlocBuilder<movieblloc.WatchlistMovieBloc, movieblloc.MovieState>(
+        builder: (context, state) {
+          if (state is movieblloc.LoadingData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is movieblloc.LoadedData) {
+            return ListView.builder(
+              itemBuilder: (context, index) {
+                final movie = state.result[index];
+                return MovieCard(movie);
+              },
+              itemCount: state.result.length,
+            );
+          } else if (state is movieblloc.ErrorData) {
+            return Center(
+              child: Text(state.message),
+            );
+          } else {
+            return Container();
+          }
+        },
+      ),
+    );
+  }
+}
+
+class _WatchlistTvseries extends StatelessWidget {
+  const _WatchlistTvseries({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: BlocBuilder<tvseriesbloc.WatchlistTvseriesBloc,
+          tvseriesbloc.TvseriesState>(
+        builder: (context, state) {
+          if (state is tvseriesbloc.LoadingData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is tvseriesbloc.LoadedData) {
+            return ListView.builder(
+              itemBuilder: (context, index) {
+                final tvShow = state.result[index];
+                return TvseriesCard(tvShow);
+              },
+              itemCount: state.result.length,
+            );
+          } else if (state is tvseriesbloc.ErrorData) {
+            return Center(
+              child: Text(state.message),
+            );
+          } else {
+            return Container();
+          }
+        },
+      ),
+    );
   }
 }

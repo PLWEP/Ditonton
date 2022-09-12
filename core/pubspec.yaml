@@ -14,7 +14,6 @@ dependencies:
     path: ../movie
   tvseries:
     path: ../tvseries
-  provider: ^6.0.3
   sqflite: ^2.0.0+3
   data_connection_checker:
     git:
@@ -23,6 +22,7 @@ dependencies:
   equatable: ^2.0.3
   google_fonts: ^3.0.1
   http: ^0.13.5
+  flutter_bloc: ^8.1.1
   flutter:
     sdk: flutter
 

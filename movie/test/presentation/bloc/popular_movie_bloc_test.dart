@@ -8,7 +8,7 @@ import 'package:movie/domain/usecases/get_popular_movies.dart';
 import 'package:movie/presentation/bloc/movie/movie_bloc.dart';
 
 import '../../dummy_data/dummy_objects.dart';
-import '../provider/popular_movies_notifier_test.mocks.dart';
+import 'popular_movie_bloc_test.mocks.dart';
 
 @GenerateMocks([GetPopularMovies])
 void main() {
