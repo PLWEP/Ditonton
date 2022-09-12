@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:core/styles/colors.dart';
 import 'package:core/styles/text_style.dart';
+import 'package:core/utils/sslpinning.dart';
 import 'package:core/utils/utils.dart';
 import 'package:about/about.dart';
 import 'package:core/utils/routes.dart';
@@ -38,12 +39,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-
-  SecurityContext(withTrustedRoots: false);
-  ByteData data = await rootBundle.load('certificates/_.themoviedb.org.pem');
-  SecurityContext context = SecurityContext.defaultContext;
-  context.setTrustedCertificatesBytes(data.buffer.asUint8List());
-
+  await HttpSSLPinning.init();
   di.init();
   runApp(MyApp());
 }
