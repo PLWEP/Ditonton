@@ -62,7 +62,7 @@ class HomeMoviePageState extends State<HomeMoviePage> {
                     final result = state.result;
                     return MovieList(result);
                   } else {
-                    return const Text("Failed");
+                    return const Text('Failed to load data');
                   }
                 },
               ),
@@ -80,7 +80,7 @@ class HomeMoviePageState extends State<HomeMoviePage> {
                     final result = state.result;
                     return MovieList(result);
                   } else {
-                    return const Text('Failed');
+                    return const Text('Failed to load data');
                   }
                 },
               ),
@@ -98,7 +98,7 @@ class HomeMoviePageState extends State<HomeMoviePage> {
                     final result = state.result;
                     return MovieList(result);
                   } else {
-                    return const Text('Failed');
+                    return const Text('Failed to load data');
                   }
                 },
               ),

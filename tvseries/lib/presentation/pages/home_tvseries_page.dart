@@ -62,7 +62,7 @@ class HomeTvseriesPageState extends State<HomeTvseriesPage> {
                     final result = state.result;
                     return TvseriesList(result);
                   } else {
-                    return const Text("Failed");
+                    return const Text('Failed to load data');
                   }
                 },
               ),
@@ -80,7 +80,7 @@ class HomeTvseriesPageState extends State<HomeTvseriesPage> {
                     final result = state.result;
                     return TvseriesList(result);
                   } else {
-                    return const Text('Failed');
+                    return const Text('Failed to load data');
                   }
                 },
               ),
@@ -99,7 +99,7 @@ class HomeTvseriesPageState extends State<HomeTvseriesPage> {
                     final result = state.result;
                     return TvseriesList(result);
                   } else {
-                    return const Text('Failed');
+                    return const Text('Failed to load data');
                   }
                 },
               ),
